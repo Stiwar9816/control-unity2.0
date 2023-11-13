@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 // Interface
-import type { Field, ImplementsTable } from '@/interface'
+import type { Field, ImplementsData, ImplementsTable } from '@/interface'
+import { supabase } from '@/utils'
 
 export const useImplementsStore = defineStore({
   id: 'implements',
@@ -17,7 +18,14 @@ export const useImplementsStore = defineStore({
       { title: 'Estado', sortable: true, key: 'status' },
       { title: 'Acciones', sortable: false, key: 'actions' }
     ] as Field[],
-    data: []
+    items: [] as ImplementsData[]
   }),
-  actions: {}
+  actions: {
+    async allImplements() {
+      // Obtén la lista completa de los salones registrados
+      let { data: implement, error } = await supabase.rpc('list_implements')
+      if (error) throw new Error(`${error.message}`)
+      return (this.items = implement as ImplementsData[])
+    }
+  }
 })

@@ -108,5 +108,5 @@ const props = defineProps({
   }
 })
 // Selects
-const dataSelectRole: string[] = ['Tic', 'Recepción', 'Coordinación']
+const dataSelectRole: string[] = ['Tic', 'Recepción', 'Planeación']
 </script>

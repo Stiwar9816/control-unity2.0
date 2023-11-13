@@ -1,6 +1,6 @@
 <template>
   <div>
-    <TableImplements :headers="storeImplements.headers" :items="storeImplements.data" />
+    <TableImplements :headers="storeImplements.headers" :items="storeImplements.items" />
   </div>
 </template>
 <script lang="ts" setup>

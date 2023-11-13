@@ -10,19 +10,19 @@ export interface header {
 }
 
 export interface UsersTable extends header {
-  data: UserData[]
+  items: UserData[]
 }
 
 export interface ImplementsTable extends header {
-  data: ImplementsData[]
+  items: ImplementsData[]
 }
 
 export interface TeachersTable extends header {
-  data: TeachersData[]
+  items: TeachersData[]
 }
 
 export interface ClassroomsTable extends header {
-  data: ClassroomsData[]
+  items: ClassroomsData[]
 }
 
 export interface ClassroomsData {

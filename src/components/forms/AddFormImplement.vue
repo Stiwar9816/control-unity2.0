@@ -44,6 +44,7 @@
                 label="Tipo"
                 :rules="requiredValue"
                 :items="dataSelectType"
+                :hide-selected="true"
                 variant="underlined"
                 type="text"
                 chips

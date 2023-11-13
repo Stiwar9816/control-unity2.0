@@ -1,6 +1,6 @@
 <template>
   <div>
-    <TableUser :headers="storeUser.headers" :items="storeUser.data" />
+    <TableUser :headers="storeUser.headers" :items="storeUser.items" />
   </div>
 </template>
 <script lang="ts" setup>

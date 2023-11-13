@@ -7,7 +7,7 @@
     </v-col>
     <v-data-table
       :headers="props.headers"
-      :items="props.data"
+      :items="props.items"
       :search="search"
       :items-per-page="10"
       :sort-by="[{ key: 'name', order: 'asc' }]"
@@ -48,14 +48,33 @@
         </v-dialog> -->
         </v-toolbar>
       </template>
-      <template v-slot:item.actions="{ item }">
-        <v-icon size="small" class="me-2" @click="editItem(item)"> mdi-pencil </v-icon>
-        <v-icon size="small"> mdi-delete </v-icon>
+      <!-- Status -->
+      <template v-slot:item.status="{ item }">
+        <v-icon v-if="item.status" icon="mdi-check-circle" color="success" size="small" />
+        <v-icon v-else icon="mdi-close-circle" color="error" size="small" />
       </template>
+      <!-- End Status -->
+      <!-- Actions -->
+      <template v-slot:item.actions="{ item }">
+        <v-icon size="small" class="me-2" @click="editItem(item)" color="tradewind500">
+          mdi-pencil
+        </v-icon>
+        <v-icon size="small" color="error"> mdi-delete </v-icon>
+      </template>
+      <!-- End Actions -->
       <template v-slot:no-data>
         <p class="pa-5">¡No hay registros!</p>
       </template>
     </v-data-table>
+    <v-snackbar
+      v-model="showSnackbar"
+      :timeout="4000"
+      :color="color"
+      rounded="pill"
+      location="bottom right"
+    >
+      {{ message }}
+    </v-snackbar>
   </v-row>
 </template>
 <script lang="ts" setup>
@@ -70,7 +89,7 @@ import type { DataTableHeader, UserData } from '@/interface'
 // Props
 const props = defineProps({
   headers: Array as () => DeepReadonly<DataTableHeader[] | DataTableHeader[][]>,
-  data: Array<UserData[]>
+  items: Array<UserData>
 })
 // Const
 const dialog = ref<boolean>(false)
@@ -91,16 +110,20 @@ const defaultItem = ref<UserData>({
   phone: 0,
   role: ''
 })
-
+// Initialization Store
+const user = useUserStore()
+// Alerts
+const showSnackbar = ref<boolean>(false)
+const color = ref<string>('')
+const message = ref<string>('')
 // Methods / Actions
 const initialize = async () => {
   try {
-    console.log('Users Data')
+    await Promise.all([user.allUsers()])
   } catch (error: any) {
-    console.log(error)
-    // showSnackbar.value = true
-    // message.value = `¡Ha ocurrido un error: ${error.message}!`
-    // color.value = 'red-darken-3'
+    showSnackbar.value = true
+    message.value = `¡Ha ocurrido un error: ${error.message}!`
+    color.value = 'red-darken-3'
   }
 }
 
@@ -139,10 +162,9 @@ const save = async () => {
   try {
     console.log('User Save')
   } catch (error: any) {
-    console.log(error)
-    // showSnackbar.value = true
-    // message.value = `¡Ha ocurrido un error: ${error.message}!`
-    // color.value = 'red-darken-3'
+    showSnackbar.value = true
+    message.value = `¡Ha ocurrido un error: ${error.message}!`
+    color.value = 'red-darken-3'
   }
 }
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <TableClassrooms :headers="storeClassroom.headers" :items="storeClassroom.data" />
+    <TableClassrooms :headers="storeClassroom.headers" :items="storeClassroom.items" />
   </div>
 </template>
 <script lang="ts" setup>
