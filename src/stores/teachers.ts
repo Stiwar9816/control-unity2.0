@@ -26,11 +26,11 @@ export const useTeacherStore = defineStore({
     },
     async addTeacher(data_teacher: TeachersData) {
       // Agrega un nuevo docente
-      let { data, error } = await supabase.rpc('insert_teacher', {
+      let { data: teacher, error } = await supabase.rpc('insert_teacher', {
         data_teacher
       })
       if (error) throw new Error(`${error.message}`)
-      return (this.items = data as TeachersData[])
+      return (this.items = teacher as TeachersData[])
     }
   }
 })

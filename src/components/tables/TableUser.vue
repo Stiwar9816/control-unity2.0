@@ -2,7 +2,17 @@
   <v-row no-gutters>
     <v-col cols="12" md="4">
       <!-- Input Search -->
-      <input-search :modelSearch="search" label-input="Buscar Usuario" />
+      <v-text-field
+        class="mt-4"
+        clearable
+        color="tradewind400"
+        density="comfortable"
+        label="Buscar usuario"
+        prepend-inner-icon="mdi-magnify"
+        type="text"
+        v-model="search"
+        variant="underlined"
+      ></v-text-field>
       <!-- End Input Search -->
     </v-col>
     <v-data-table
@@ -80,7 +90,6 @@
 <script lang="ts" setup>
 import { ref, type DeepReadonly, onMounted, computed } from 'vue'
 // Components
-import InputSearch from '@/components/inputs/InputSearch.vue'
 import AddFormUser from '@/components/forms/AddFormUser.vue'
 // Stores
 import { useUserStore } from '@/stores'

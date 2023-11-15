@@ -2,7 +2,17 @@
   <v-row no-gutters>
     <v-col cols="12" md="4">
       <!-- Input Search -->
-      <input-search :modelSearch="search" label-input="Buscar Docente" />
+      <v-text-field
+        class="mt-4"
+        clearable
+        color="tradewind400"
+        density="comfortable"
+        label="Buscar docente"
+        prepend-inner-icon="mdi-magnify"
+        type="text"
+        v-model="search"
+        variant="underlined"
+      ></v-text-field>
       <!-- End Input Search -->
     </v-col>
     <v-data-table

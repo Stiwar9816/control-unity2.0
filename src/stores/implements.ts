@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 // Interface
 import type { Field, ImplementsData, ImplementsTable, UserData } from '@/interface'
+// Utils
 import { supabase } from '@/utils'
 
 export const useImplementsStore = defineStore({

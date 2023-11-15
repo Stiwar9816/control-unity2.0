@@ -47,7 +47,6 @@
                 :hide-selected="true"
                 variant="underlined"
                 type="text"
-                chips
                 clearable
               >
               </v-select>
