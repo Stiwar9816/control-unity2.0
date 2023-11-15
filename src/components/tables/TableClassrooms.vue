@@ -159,9 +159,12 @@ const close = () => {
 
 const save = async () => {
   try {
-    let { ability, ...res } = editedItem.value
+    console.log(editedItem.value);
+    let { ability, tech_resources, connectivity, ...res } = editedItem.value
+    tech_resources = tech_resources.toString()
+    connectivity = connectivity.toString()
     ability = +ability
-    await rooms.addRoom({ ability, ...res })
+    await rooms.addRoom({ ability,tech_resources,connectivity, ...res })
     showSnackbar.value = true
     message.value = `¡Nuevo salón ${res.nomenclature} agregado con exito!`
     color.value = 'tradewind600'
