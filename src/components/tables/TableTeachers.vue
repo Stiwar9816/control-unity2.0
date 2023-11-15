@@ -157,7 +157,14 @@ const close = () => {
 
 const save = async () => {
   try {
-    console.log('Teacher Save')
+    let { cc, phone, ...res } = editedItem.value
+    cc = +cc
+    phone = +phone
+    await teacher.addTeacher({ cc, phone, ...res })
+    showSnackbar.value = true
+    message.value = `¡Nuevo Docente ${res.name} fue agregado con exito!`
+    color.value = 'tradewind600'
+    close()
   } catch (error: any) {
     showSnackbar.value = true
     message.value = `¡Ha ocurrido un error: ${error.message}!`

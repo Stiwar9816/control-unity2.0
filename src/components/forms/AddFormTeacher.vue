@@ -51,6 +51,16 @@
                 clearable
               ></v-text-field>
             </v-col>
+            <!-- <v-col cols="12" sm="6" md="6">
+              <v-switch
+                v-model="props.dataForm!.status"
+                hide-details
+                true-value="Activo"
+                false-value="Inactivo"
+                :label="`${props.dataForm!.status}`"
+                color="tradewind500"
+              ></v-switch>
+            </v-col> -->
           </v-row>
         </v-container>
       </v-card-text>
@@ -83,7 +93,8 @@ const props = defineProps({
       cc: Number,
       name: String,
       email: String,
-      phone: Number
+      phone: Number,
+      status: Boolean
     }
   },
   modalClose: {

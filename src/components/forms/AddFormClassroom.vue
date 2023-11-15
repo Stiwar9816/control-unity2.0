@@ -49,7 +49,7 @@
                 :value="item.value"
                 :multiple="true"
                 color="tradewind500"
-                :indeterminate="true"
+                @change="updateChechbox"
               />
             </v-col>
             <v-col cols="12" sm="6" md="6">
@@ -62,7 +62,7 @@
                 :value="item.value"
                 :multiple="true"
                 color="tradewind500"
-                :indeterminate="true"
+                @change="updateChechbox"
               />
             </v-col>
           </v-row>
@@ -117,4 +117,9 @@ const dataSelectedConnectivity = [
   { name: 'WiFi', value: 'WiFi' },
   { name: 'Ethernet', value: 'Ethernet' }
 ]
+// Methdos
+const updateChechbox = () => {
+  props.dataForm!.connectivity = props.dataForm!.connectivity.filter(Boolean)
+  props.dataForm!.tech_resources = props.dataForm!.tech_resources.filter(Boolean)
+}
 </script>

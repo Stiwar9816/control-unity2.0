@@ -3,7 +3,7 @@
     <v-app-bar class="text-white" color="tradewind500" elevation="0" flat app>
       <template v-slot:prepend>
         <v-app-bar-nav-icon flat color="white" @click="storeLayout.drawer = !storeLayout.drawer" />
-        <v-img class="ml-n4" width="170" src="/images/logo-talachapp.webp" alt="Logo" />
+        <v-img class="ml-n4" width="170" src="/images/LOGO_BLANCO.svg" alt="Logo" />
      
       </template>
       <v-spacer />

@@ -72,14 +72,18 @@
               ></v-text-field>
             </v-col>
             <v-col cols="12" sm="6" md="6">
-              <v-text-field
+              <v-select
                 v-model="props.dataForm!.responsible"
-                :rules="requiredValue"
                 label="Responsable"
-                type="text"
+                :rules="requiredValue"
+                :items="implement.usersSelect"
+                item-title="name"
+                item-value="id"
                 variant="underlined"
+                type="text"
                 clearable
-              ></v-text-field>
+              >
+              </v-select>
             </v-col>
             <v-col cols="12" sm="6" md="6">
               <v-textarea
@@ -111,6 +115,7 @@
 </template>
 
 <script lang="ts" setup>
+import { onMounted } from 'vue'
 // Utils
 import { requiredValue } from '@/utils'
 // Props
@@ -140,5 +145,20 @@ const props = defineProps({
   }
 })
 // Selects
-const dataSelectType: string[] = ['Portatil', 'Video Beam', 'Subwoofer']
+const dataSelectType: string[] = ['Portatil', 'Tv', 'Video Beam', 'Subwoofer']
+//Stores
+import { useImplementsStore } from '@/stores'
+// Initialization Store
+const implement = useImplementsStore()
+// Methods / Actions
+const initialize = async () => {
+  try {
+    await Promise.all([implement.allUsersSelect()])
+  } catch (error: any) {
+    throw new Error(`Ha ocurrido un error: ${error}`)
+  }
+}
+onMounted(() => {
+  initialize()
+})
 </script>

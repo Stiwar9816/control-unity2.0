@@ -24,6 +24,14 @@ export const useClassroomsStore = defineStore({
       let { data: rooms, error } = await supabase.rpc('list_classrooms')
       if (error) throw new Error(`${error.message}`)
       return (this.items = rooms as ClassroomsData[])
+    },
+    async addRoom(data_classroom: ClassroomsData) {
+      // Agrega un nuevo salón
+      let { data, error } = await supabase.rpc('insert_classroom', {
+        data_classroom
+      })
+      if (error) throw new Error(`${error.message}`)
+      return (this.items = data as ClassroomsData[])
     }
   }
 })

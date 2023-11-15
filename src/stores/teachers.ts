@@ -19,10 +19,18 @@ export const useTeacherStore = defineStore({
   }),
   actions: {
     async allTeachers() {
-      // Obtén la lista completa de los salones registrados
+      // Obtén la lista completa de los docentes registrados
       let { data: teachers, error } = await supabase.rpc('list_teachers')
       if (error) throw new Error(`${error.message}`)
       return (this.items = teachers as TeachersData[])
+    },
+    async addTeacher(data_teacher: TeachersData) {
+      // Agrega un nuevo docente
+      let { data, error } = await supabase.rpc('insert_teacher', {
+        data_teacher
+      })
+      if (error) throw new Error(`${error.message}`)
+      return (this.items = data as TeachersData[])
     }
   }
 })

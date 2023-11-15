@@ -15,6 +15,7 @@ export interface UsersTable extends header {
 
 export interface ImplementsTable extends header {
   items: ImplementsData[]
+  usersSelect: UserData[]
 }
 
 export interface TeachersTable extends header {
@@ -29,8 +30,8 @@ export interface ClassroomsData {
   id?: string
   nomenclature: string
   location: string
-  tech_resources: [string]
-  connectivity: [string]
+  tech_resources: string[]
+  connectivity: string[]
   ability: number
   status?: boolean
 }

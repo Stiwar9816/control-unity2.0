@@ -103,6 +103,7 @@ const editedItem = ref<ClassroomsData>({
   connectivity: [''],
   ability: 0
 })
+console.log(editedItem)
 const defaultItem = ref<ClassroomsData>({
   nomenclature: '',
   location: '',
@@ -158,7 +159,13 @@ const close = () => {
 
 const save = async () => {
   try {
-    console.log('Classroom Save')
+    let { ability, ...res } = editedItem.value
+    ability = +ability
+    await rooms.addRoom({ ability, ...res })
+    showSnackbar.value = true
+    message.value = `¡Nuevo salón ${res.nomenclature} agregado con exito!`
+    color.value = 'tradewind600'
+    close()
   } catch (error: any) {
     showSnackbar.value = true
     message.value = `¡Ha ocurrido un error: ${error.message}!`

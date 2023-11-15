@@ -170,7 +170,11 @@ const close = () => {
 
 const save = async () => {
   try {
-    console.log('Implement Save')
+    await implement.addImplement(editedItem.value)
+    showSnackbar.value = true
+    message.value = `¡Nuevo implemento ${editedItem.value.name} fue agregado con exito!`
+    color.value = 'tradewind600'
+    close()
   } catch (error: any) {
     showSnackbar.value = true
     message.value = `¡Ha ocurrido un error: ${error.message}!`

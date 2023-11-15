@@ -11,7 +11,7 @@
 				>
 					<form>
 						<v-img
-							src="/images/logo-talachapp.webp"
+							src="/images/LOGO_BLANCO.svg"
 							alt="Logo Control Unity"
 							height="140"
 							class="mb-3"
