@@ -60,8 +60,14 @@
       </template>
       <!-- Status -->
       <template v-slot:item.status="{ item }">
-        <v-icon v-if="item.status" icon="mdi-check-circle" color="success" size="small" />
-        <v-icon v-else icon="mdi-close-circle" color="error" size="small" />
+        <v-switch
+          v-if="item.status !== undefined"
+          v-model="item.status"
+          hide-details
+          true-icon="mdi-check-circle"
+          false-icon="mdi-close-circle"
+          color="tradewind500"
+        ></v-switch>
       </template>
       <!-- End Status -->
       <!-- Actions -->
@@ -110,14 +116,14 @@ const editedItem = ref<UserData>({
   email: '',
   name: '',
   phone: 0,
-  role: ''
+  role: []
 })
 const defaultItem = ref<UserData>({
   cc: 0,
   email: '',
   name: '',
   phone: 0,
-  role: ''
+  role: []
 })
 // Initialization Store
 const user = useUserStore()
@@ -168,8 +174,19 @@ const close = () => {
 }
 
 const save = async () => {
+  let { id, cc, phone, ...res } = editedItem.value
+  cc = +cc
+  phone = +phone
   try {
-    console.log('User Save')
+    if (!id) {
+      console.log('User Save')
+    } else {
+      await user.updateUser(id, { cc, phone, ...res })
+      showSnackbar.value = true
+      message.value = `¡El usuario ${res.name} fue actualizado con exito!`
+      color.value = 'tradewind600'
+      close()
+    }
   } catch (error: any) {
     showSnackbar.value = true
     message.value = `¡Ha ocurrido un error: ${error.message}!`

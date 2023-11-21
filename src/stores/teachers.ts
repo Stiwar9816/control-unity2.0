@@ -31,6 +31,24 @@ export const useTeacherStore = defineStore({
       })
       if (error) throw new Error(`${error.message}`)
       return (this.items = teacher as TeachersData[])
-    }
+    },
+    async updateTeacher(teacher_id: string, data_teacher: TeachersData) {
+      // Actualiza los datos de un docente
+      let { data: teacher, error } = await supabase.rpc('update_teacher', {
+        data_teacher,
+        teacher_id
+      })
+      if (error) throw new Error(`${error.message}`)
+      return (this.items = teacher as TeachersData[])
+    },
+    // async updateStatus(teacher_id: string, status_teacher: boolean) {
+    //   let { data, error } = await supabase.rpc('update_status_teacher', {
+    //     status_teacher,
+    //     teacher_id
+    //   })
+
+    //   if (error) throw new Error(`${error.message}`)
+    //   return (this.items = data as TeachersData[])
+    // }
   }
 })

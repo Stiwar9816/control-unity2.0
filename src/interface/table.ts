@@ -30,8 +30,8 @@ export interface ClassroomsData {
   id?: string
   nomenclature: string
   location: string
-  tech_resources: string[]
-  connectivity: string[]
+  tech_resources: string[] | string
+  connectivity: string[] | string
   ability: number
   status?: boolean
 }
@@ -42,7 +42,7 @@ export interface TeachersData {
   name: string
   email: string
   phone: number
-  status?: boolean
+  status: boolean | any
 }
 
 export interface ImplementsData {
@@ -64,7 +64,7 @@ export interface UserData {
   email: string
   name: string
   phone: number
-  role?: string
+  role?: string[]
   status?: boolean
 }
 

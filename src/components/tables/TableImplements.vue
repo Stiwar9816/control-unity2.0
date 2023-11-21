@@ -60,8 +60,14 @@
       </template>
       <!-- Status -->
       <template v-slot:item.status="{ item }">
-        <v-icon v-if="item.status" icon="mdi-check-circle" color="success" size="small" />
-        <v-icon v-else icon="mdi-close-circle" color="error" size="small" />
+        <v-switch
+          v-if="item.status !== undefined"
+          v-model="item.status"
+          hide-details
+          true-icon="mdi-check-circle"
+          false-icon="mdi-close-circle"
+          color="tradewind500"
+        ></v-switch>
       </template>
       <!-- End Status -->
       <!-- Actions -->
@@ -92,7 +98,6 @@
 <script lang="ts" setup>
 import { ref, type DeepReadonly, onMounted, computed } from 'vue'
 // Components
-import InputSearch from '@/components/inputs/InputSearch.vue'
 import AddFormImplement from '@/components/forms/AddFormImplement.vue'
 //Stores
 import { useImplementsStore } from '@/stores'
@@ -155,23 +160,20 @@ const formTitle = computed(() => {
 
 const editItem = (item: ImplementsData) => {
   editedIndex.value = data.value.indexOf(item)
-  editedItem.value = Object.assign(
-    {},
-    {
-      name: item.name,
-      serial: item.serial,
-      manufacturer: item.manufacturer,
-      type: item.type,
-      model: item.model,
-      location: item.location,
-      responsible: item.responsible,
-      note: item.note,
-      status: item.status
-    }
-  )
+  editedItem.value = {
+    id: item.id,
+    name: item.name,
+    serial: item.serial,
+    manufacturer: item.manufacturer,
+    type: item.type,
+    model: item.model,
+    location: item.location,
+    responsible: item.responsible,
+    note: item.note,
+    status: item.status
+  }
   dialog.value = true
 }
-
 const close = () => {
   dialog.value = false
   editedItem.value = Object.assign({}, defaultItem.value)
@@ -180,11 +182,20 @@ const close = () => {
 
 const save = async () => {
   try {
-    await implement.addImplement(editedItem.value)
-    showSnackbar.value = true
-    message.value = `¡Nuevo implemento ${editedItem.value.name} fue agregado con exito!`
-    color.value = 'tradewind600'
-    close()
+    let { id, ...res } = editedItem.value
+    if (!id) {
+      await implement.addImplement(res)
+      showSnackbar.value = true
+      message.value = `¡Nuevo implemento ${editedItem.value.name} fue agregado con exito!`
+      color.value = 'tradewind600'
+      close()
+    } else {
+      await implement.updateImplement(id, res)
+      showSnackbar.value = true
+      message.value = `¡El implemento ${res.name} fue actualizado con exito!`
+      color.value = 'tradewind600'
+      close()
+    }
   } catch (error: any) {
     showSnackbar.value = true
     message.value = `¡Ha ocurrido un error: ${error.message}!`

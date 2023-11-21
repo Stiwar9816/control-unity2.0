@@ -60,8 +60,14 @@
       </template>
       <!-- Status -->
       <template v-slot:item.status="{ item }">
-        <v-icon v-if="item.status" icon="mdi-check-circle" color="success" size="small" />
-        <v-icon v-else icon="mdi-close-circle" color="error" size="small" />
+        <v-switch
+          v-if="item.status !== undefined"
+          v-model="item.status"
+          hide-details
+          true-icon="mdi-check-circle"
+          false-icon="mdi-close-circle"
+          color="tradewind500"
+        ></v-switch>
       </template>
       <!-- End Status -->
       <!-- Actions -->
@@ -90,7 +96,6 @@
 <script lang="ts" setup>
 import { ref, type DeepReadonly, onMounted, computed } from 'vue'
 // Components
-import InputSearch from '@/components/inputs/InputSearch.vue'
 import AddFormClassroom from '@/components/forms/AddFormClassroom.vue'
 // Stores
 import { useClassroomsStore } from '@/stores'
@@ -109,16 +114,15 @@ const editedIndex = ref<number>(-1)
 const editedItem = ref<ClassroomsData>({
   nomenclature: '',
   location: '',
-  tech_resources: [''],
-  connectivity: [''],
+  tech_resources: [],
+  connectivity: [],
   ability: 0
 })
-console.log(editedItem)
 const defaultItem = ref<ClassroomsData>({
   nomenclature: '',
   location: '',
-  tech_resources: [''],
-  connectivity: [''],
+  tech_resources: [],
+  connectivity: [],
   ability: 0
 })
 // Initialization Store
@@ -148,16 +152,15 @@ const formTitle = computed(() => {
 
 const editItem = (item: ClassroomsData) => {
   editedIndex.value = data.value.indexOf(item)
-  editedItem.value = Object.assign(
-    {},
-    {
-      nomenclature: item.nomenclature,
-      location: item.location,
-      tech_resources: item.tech_resources,
-      connectivity: item.connectivity,
-      ability: item.ability
-    }
-  )
+  editedItem.value = {
+    id: item.id,
+    nomenclature: item.nomenclature,
+    location: item.location,
+    tech_resources: item.tech_resources,
+    connectivity: item.connectivity,
+    ability: item.ability,
+    status: item.status
+  }
   dialog.value = true
 }
 
@@ -169,16 +172,23 @@ const close = () => {
 
 const save = async () => {
   try {
-    console.log(editedItem.value);
-    let { ability, tech_resources, connectivity, ...res } = editedItem.value
+    let { id, ability, tech_resources, connectivity, ...res } = editedItem.value
+    ability = +ability
     tech_resources = tech_resources.toString()
     connectivity = connectivity.toString()
-    ability = +ability
-    await rooms.addRoom({ ability,tech_resources,connectivity, ...res })
-    showSnackbar.value = true
-    message.value = `¡Nuevo salón ${res.nomenclature} agregado con exito!`
-    color.value = 'tradewind600'
-    close()
+    if (!id) {
+      await rooms.addRoom({ ability, tech_resources, connectivity, ...res })
+      showSnackbar.value = true
+      message.value = `¡Nuevo salón ${res.nomenclature} agregado con exito!`
+      color.value = 'tradewind600'
+      close()
+    } else {
+      await rooms.updateRoom(id, { ability, tech_resources, connectivity, ...res })
+      showSnackbar.value = true
+      message.value = `¡El salón ${res.nomenclature} fue actualizado con exito!`
+      color.value = 'tradewind600'
+      close()
+    }
   } catch (error: any) {
     showSnackbar.value = true
     message.value = `¡Ha ocurrido un error: ${error.message}!`

@@ -60,8 +60,16 @@
       </template>
       <!-- Status -->
       <template v-slot:item.status="{ item }">
-        <v-icon v-if="item.status" icon="mdi-check-circle" color="success" size="small" />
-        <v-icon v-else icon="mdi-close-circle" color="error" size="small" />
+        <v-switch
+          v-if="item.status !== undefined"
+          v-model="item.status"
+          hide-details
+          true-icon="mdi-check-circle"
+          false-icon="mdi-close-circle"
+          :label="item.status ? 'Activo' : 'Inactivo'"
+          color="tradewind500"
+          @change="updateStatus"
+        ></v-switch>
       </template>
       <!-- End Status -->
       <!-- Actions -->
@@ -90,7 +98,6 @@
 <script lang="ts" setup>
 import { ref, type DeepReadonly, onMounted, computed } from 'vue'
 // Components
-import InputSearch from '@/components/inputs/InputSearch.vue'
 import AddFormTeacher from '@/components/forms/AddFormTeacher.vue'
 //Stores
 import { useTeacherStore } from '@/stores'
@@ -110,13 +117,15 @@ const editedItem = ref<TeachersData>({
   cc: 0,
   email: '',
   name: '',
-  phone: 0
+  phone: 0,
+  status: false
 })
 const defaultItem = ref<TeachersData>({
   cc: 0,
   email: '',
   name: '',
-  phone: 0
+  phone: 0,
+  status: false
 })
 // Initialization Store
 const teacher = useTeacherStore()
@@ -167,14 +176,35 @@ const close = () => {
 
 const save = async () => {
   try {
-    let { cc, phone, ...res } = editedItem.value
+    let { id, cc, phone, ...res } = editedItem.value
     cc = +cc
     phone = +phone
-    await teacher.addTeacher({ cc, phone, ...res })
+    if (!id) {
+      await teacher.addTeacher({ cc, phone, ...res })
+      showSnackbar.value = true
+      message.value = `¡Nuevo Docente ${res.name} fue agregado con exito!`
+      color.value = 'tradewind600'
+      close()
+    } else {
+      await teacher.updateTeacher(id, { cc, phone, ...res })
+      showSnackbar.value = true
+      message.value = `¡La información del docente ${res.name} fue actualizada con exito!`
+      color.value = 'tradewind600'
+      close()
+    }
+  } catch (error: any) {
     showSnackbar.value = true
-    message.value = `¡Nuevo Docente ${res.name} fue agregado con exito!`
-    color.value = 'tradewind600'
-    close()
+    message.value = `¡Ha ocurrido un error: ${error.message}!`
+    color.value = 'red-darken-3'
+  }
+}
+
+const updateStatus = async () => {
+  try {
+    console.log('Valor de editedItem.value:', editedItem.value)
+    let { id, status } = editedItem.value    
+    console.log(id,status);
+    // await teacher.updateStatus(id!, status)
   } catch (error: any) {
     showSnackbar.value = true
     message.value = `¡Ha ocurrido un error: ${error.message}!`

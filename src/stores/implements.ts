@@ -20,7 +20,7 @@ export const useImplementsStore = defineStore({
       { title: 'Acciones', sortable: false, key: 'actions' }
     ] as Field[],
     items: [] as ImplementsData[],
-    usersSelect: []
+    usersSelect: [] as UserData[]
   }),
   actions: {
     async allImplements() {
@@ -39,6 +39,15 @@ export const useImplementsStore = defineStore({
       // Agrega un nuevo implemento
       let { data: implement, error } = await supabase.rpc('insert_implement', {
         data_implement
+      })
+      if (error) throw new Error(`${error.message}`)
+      return (this.items = implement as ImplementsData[])
+    },
+    async updateImplement(implement_id: string, data_implement: ImplementsData) {
+      // Actualiza la información de un implemento
+      let { data: implement, error } = await supabase.rpc('update_implement', {
+        data_implement,
+        implement_id
       })
       if (error) throw new Error(`${error.message}`)
       return (this.items = implement as ImplementsData[])

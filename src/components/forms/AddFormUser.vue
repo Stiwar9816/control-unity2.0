@@ -97,7 +97,7 @@ const props = defineProps({
       name: String,
       email: String,
       phone: Number,
-      role: String
+      role: Array
     }
   },
   modalClose: {

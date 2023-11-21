@@ -32,6 +32,15 @@ export const useClassroomsStore = defineStore({
       })
       if (error) throw new Error(`${error.message}`)
       return (this.items = room as ClassroomsData[])
+    },
+    async updateRoom(room_id: string, data_room: ClassroomsData) {
+      // Actualiza la información de un salón
+      let { data: room, error } = await supabase.rpc('update_classroom', {
+        data_room,
+        room_id
+      })
+      if (error) throw new Error(`${error.message}`)
+      return (this.items = room as ClassroomsData[])
     }
   }
 })
