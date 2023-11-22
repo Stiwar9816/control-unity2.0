@@ -69,7 +69,7 @@
           true-icon="mdi-check-circle"
           false-icon="mdi-close-circle"
           color="tradewind500"
-          @change="updateStatus"
+          @change="updateStatus(item)"
         ></v-switch>
       </template>
       <!-- End Status -->
@@ -219,11 +219,10 @@ const save = async () => {
   }
 }
 
-const updateStatus = async () => {
+const updateStatus = async (item: TeachersData) => {
   try {
-    let { id, status } = editedItem.value
-    console.log(id, status)
-    // await teacher.updateStatus(id!, status)
+    let { id, ...res } = item
+    await teacher.updateTeacher(id!, res)
   } catch (error: any) {
     showSnackbar.value = true
     message.value = `¡Ha ocurrido un error: ${error.message}!`

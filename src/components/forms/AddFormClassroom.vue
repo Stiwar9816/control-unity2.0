@@ -43,38 +43,30 @@
               ></v-text-field>
             </v-col>
             <v-col cols="12" sm="6" md="6">
-              <v-select
+              <h2 class="text-subtitle-1 text-grey-darken-3">Recursos tecnológicos</h2>
+              <v-checkbox
+                v-for="item in dataSelectedTechResource"
+                :key="item.name"
                 v-model="props.dataForm!.tech_resources"
-                label="Recursos tecnológicos"
-                :rules="requiredValue"
-                :items="
-                  filterSelectedOptions(props.dataForm.tech_resources, dataSelectedTechResource)
-                "
-                no-data-text="No hay más datos"
-                variant="underlined"
+                :label="item.name"
+                :value="item.value"
+                :multiple="true"
                 color="tradewind500"
-                type="text"
-                clearable
-                multiple
-              >
-              </v-select>
+                @change="updateChechbox"
+              />
             </v-col>
             <v-col cols="12" sm="6" md="6">
-              <v-select
+              <h2 class="text-subtitle-1 text-grey-darken-3">Conectividad</h2>
+              <v-checkbox
+                v-for="item in dataSelectedConnectivity"
+                :key="item.name"
                 v-model="props.dataForm!.connectivity"
-                label="Conectividad"
-                :rules="requiredValue"
-                :items="
-                  filterSelectedOptions(props.dataForm.connectivity, dataSelectedConnectivity)
-                "
-                no-data-text="No hay más datos"
-                variant="underlined"
+                :label="item.name"
+                :value="item.value"
+                :multiple="true"
                 color="tradewind500"
-                type="text"
-                clearable
-                multiple
-              >
-              </v-select>
+                @change="updateChechbox"
+              />
             </v-col>
           </v-row>
         </v-container>
@@ -94,7 +86,6 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch } from 'vue'
 // Utils
 import { requiredValue } from '@/utils'
 // Props
@@ -121,30 +112,17 @@ const props = defineProps({
   }
 })
 // Selects
-const dataSelectedTechResource: string[] = ['Tv', 'Aire acondicionado']
-const dataSelectedConnectivity: string[] = ['WiFi', 'Ethernet']
-
-// Método para filtrar las opciones ya seleccionadas
-const filterSelectedOptions = (selectedItems: string[], allItems: string[]) => {
-  return allItems.filter((item) => !selectedItems.includes(item))
+const dataSelectedTechResource = [
+  { name: 'TV', value: 'TV' },
+  { name: 'Aire acondicionado', value: 'Aire acondicionado' }
+]
+const dataSelectedConnectivity = [
+  { name: 'WiFi', value: 'WiFi' },
+  { name: 'Ethernet', value: 'Ethernet' }
+]
+// Methdos
+const updateChechbox = () => {
+  props.dataForm!.connectivity = props.dataForm!.connectivity.filter(Boolean)
+  props.dataForm!.tech_resources = props.dataForm!.tech_resources.filter(Boolean)
 }
-
-// Datos reactivos para almacenar las opciones seleccionadas
-const selectedTechResources = ref<string[]>(props.dataForm.tech_resources.slice())
-const selectedConnectivity = ref<string[]>(props.dataForm.connectivity.slice())
-
-// Observadores para filtrar las opciones cuando cambian las selecciones
-watch(
-  () => props.dataForm.tech_resources,
-  (newValue: string[]) => {
-    selectedTechResources.value = filterSelectedOptions(newValue, dataSelectedTechResource)
-  }
-)
-
-watch(
-  () => props.dataForm.connectivity,
-  (newValue: string[]) => {
-    selectedConnectivity.value = filterSelectedOptions(newValue, dataSelectedConnectivity)
-  }
-)
 </script>

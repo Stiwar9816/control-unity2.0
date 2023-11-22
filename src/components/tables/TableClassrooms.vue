@@ -69,6 +69,7 @@
           true-icon="mdi-check-circle"
           false-icon="mdi-close-circle"
           color="tradewind500"
+          @change="updateStatus(item)"
         ></v-switch>
       </template>
       <!-- End Status -->
@@ -155,17 +156,27 @@ const formTitle = computed(() => {
 })
 
 const editItem = (item: ClassroomsData) => {
-  // console.log(item);
   editedIndex.value = data.value.indexOf(item)
-  editedItem.value = Object.assign( {}, {
-    id: item.id,
-    nomenclature: item.nomenclature,
-    location: item.location,
-    tech_resources: item.tech_resources.split(','),
-    connectivity: item.connectivity.split(','),
-    ability: item.ability,
-    status: item.status
-  }
+
+  // Verifica si tech_resources es un string antes de aplicar split
+  const techResources =
+    typeof item.tech_resources === 'string' ? item.tech_resources.split(',') : item.tech_resources
+
+  // Verifica si connectivity es un string antes de aplicar split
+  const connectivity =
+    typeof item.connectivity === 'string' ? item.connectivity.split(',') : item.connectivity
+
+  editedItem.value = Object.assign(
+    {},
+    {
+      id: item.id,
+      nomenclature: item.nomenclature,
+      location: item.location,
+      tech_resources: techResources,
+      connectivity: connectivity,
+      ability: item.ability,
+      status: item.status
+    }
   )
   dialog.value = true
 }
@@ -212,6 +223,17 @@ const save = async () => {
       color.value = 'tradewind600'
       close()
     }
+  } catch (error: any) {
+    showSnackbar.value = true
+    message.value = `¡Ha ocurrido un error: ${error.message}!`
+    color.value = 'red-darken-3'
+  }
+}
+
+const updateStatus = async (item: ClassroomsData) => {
+  try {
+    let { id, ...res } = item
+    await rooms.updateRoom(id!, res)
   } catch (error: any) {
     showSnackbar.value = true
     message.value = `¡Ha ocurrido un error: ${error.message}!`

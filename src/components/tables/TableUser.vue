@@ -69,6 +69,7 @@
           true-icon="mdi-check-circle"
           false-icon="mdi-close-circle"
           color="tradewind500"
+          @change="updateStatus(item)"
         ></v-switch>
       </template>
       <!-- End Status -->
@@ -208,6 +209,17 @@ const save = async () => {
       color.value = 'tradewind600'
       close()
     }
+  } catch (error: any) {
+    showSnackbar.value = true
+    message.value = `¡Ha ocurrido un error: ${error.message}!`
+    color.value = 'red-darken-3'
+  }
+}
+
+const updateStatus = async (item: UserData) => {
+  try {
+    let { id, ...res } = item
+    await user.updateUser(id!, res)
   } catch (error: any) {
     showSnackbar.value = true
     message.value = `¡Ha ocurrido un error: ${error.message}!`

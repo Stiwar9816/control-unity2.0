@@ -28,7 +28,7 @@
         </v-col>
 
         <v-col cols="12" md="4">
-          <v-date-picker  show-adjacent-months></v-date-picker>
+          <v-date-picker  rounded="lg"  show-adjacent-months></v-date-picker>
         </v-col>
       </v-row>
     </v-container>
