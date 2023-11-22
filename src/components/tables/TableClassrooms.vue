@@ -114,15 +114,15 @@ const editedIndex = ref<number>(-1)
 const editedItem = ref<ClassroomsData>({
   nomenclature: '',
   location: '',
-  tech_resources: [],
-  connectivity: [],
+  tech_resources: [''],
+  connectivity: [''],
   ability: 0
 })
 const defaultItem = ref<ClassroomsData>({
   nomenclature: '',
   location: '',
-  tech_resources: [],
-  connectivity: [],
+  tech_resources: [''],
+  connectivity: [''],
   ability: 0
 })
 // Initialization Store
@@ -151,16 +151,18 @@ const formTitle = computed(() => {
 })
 
 const editItem = (item: ClassroomsData) => {
+  // console.log(item);
   editedIndex.value = data.value.indexOf(item)
-  editedItem.value = {
+  editedItem.value = Object.assign( {}, {
     id: item.id,
     nomenclature: item.nomenclature,
     location: item.location,
-    tech_resources: item.tech_resources,
-    connectivity: item.connectivity,
+    tech_resources: item.tech_resources.split(','),
+    connectivity: item.connectivity.split(','),
     ability: item.ability,
     status: item.status
   }
+  )
   dialog.value = true
 }
 
