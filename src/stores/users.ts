@@ -26,8 +26,17 @@ export const useUserStore = defineStore({
       return (this.items = users as UserData[])
     },
     async updateUser(user_id: string, data_user: UserData) {
+      // Actualiza la información de un usuario
       let { data: user, error } = await supabase.rpc('update_user', {
         data_user,
+        user_id
+      })
+      if (error) throw new Error(`${error.message}`)
+      return (this.items = user as UserData[])
+    },
+    async deleteUser(user_id: string) {
+      // Elimina a un usuario
+      let { data: user, error } = await supabase.rpc('delete_user_by_id', {
         user_id
       })
       if (error) throw new Error(`${error.message}`)

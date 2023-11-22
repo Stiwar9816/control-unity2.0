@@ -18,6 +18,7 @@
                 label="Nombre"
                 type="text"
                 variant="underlined"
+                color="tradewind500"
               ></v-text-field>
             </v-col>
             <v-col cols="12" sm="6" md="6">
@@ -27,6 +28,7 @@
                 label="Serial"
                 type="text"
                 variant="underlined"
+                color="tradewind500"
               ></v-text-field>
             </v-col>
             <v-col cols="12" sm="6" md="6">
@@ -35,6 +37,7 @@
                 label="Marca"
                 type="text"
                 variant="underlined"
+                color="tradewind500"
                 clearable
               ></v-text-field>
             </v-col>
@@ -46,6 +49,7 @@
                 :items="dataSelectType"
                 :hide-selected="true"
                 variant="underlined"
+                color="tradewind500"
                 type="text"
                 clearable
               >
@@ -57,6 +61,7 @@
                 label="Modelo"
                 type="text"
                 variant="underlined"
+                color="tradewind500"
                 clearable
               ></v-text-field>
             </v-col>
@@ -67,6 +72,7 @@
                 label="Ubicación"
                 type="text"
                 variant="underlined"
+                color="tradewind500"
                 clearable
               ></v-text-field>
             </v-col>
@@ -79,6 +85,7 @@
                 item-title="name"
                 item-value="id"
                 variant="underlined"
+                color="tradewind500"
                 type="text"
                 clearable
               >
@@ -93,6 +100,7 @@
                 auto-grow
                 rows="1"
                 row-height="15"
+                color="tradewind500"
                 clearable
               ></v-textarea>
             </v-col>

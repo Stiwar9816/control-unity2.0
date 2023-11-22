@@ -25,6 +25,7 @@
       <template v-slot:top>
         <v-toolbar class="rounded-lg" color="tradewind50" density="comfortable" flat>
           <v-spacer />
+          <!-- Dialog Add/Edit -->
           <v-dialog v-model="dialog" persistent max-width="600px">
             <template v-slot:activator="{ props }">
               <v-btn
@@ -45,17 +46,18 @@
               :modal-save="save"
             />
           </v-dialog>
-          <!-- <v-dialog v-model="dialogDelete" max-width="500px">
-            <v-card>
-              <v-card-title class="text-h5">Are you sure you want to delete this item?</v-card-title>
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="blue-darken-1" variant="text" @click="closeDelete">Cancel</v-btn>
-                <v-btn color="blue-darken-1" variant="text" @click="deleteItemConfirm">OK</v-btn>
-                <v-spacer></v-spacer>
-              </v-card-actions>
-            </v-card>
-          </v-dialog> -->
+          <!-- Dialog Add/Edit -->
+          <!-- Dialog delete -->
+          <v-dialog v-model="dialogDelete" max-width="600px" persistent>
+            <ModalDelete
+              form-title="Eliminar docente"
+              type-delete="a"
+              :data-form="editedItem"
+              :modal-close="closeDelete"
+              :modal-save="deleteItemConfirm"
+            />
+          </v-dialog>
+          <!-- Dialog delete -->
         </v-toolbar>
       </template>
       <!-- Status -->
@@ -66,7 +68,6 @@
           hide-details
           true-icon="mdi-check-circle"
           false-icon="mdi-close-circle"
-          :label="item.status ? 'Activo' : 'Inactivo'"
           color="tradewind500"
           @change="updateStatus"
         ></v-switch>
@@ -77,7 +78,7 @@
         <v-icon size="small" class="me-2" @click="editItem(item)" color="tradewind500">
           mdi-pencil
         </v-icon>
-        <v-icon size="small" color="error"> mdi-delete </v-icon>
+        <v-icon size="small" color="error" @click="deleteItem(item)"> mdi-delete </v-icon>
       </template>
       <!-- End Actions -->
       <template v-slot:no-data>
@@ -99,6 +100,7 @@
 import { ref, type DeepReadonly, onMounted, computed } from 'vue'
 // Components
 import AddFormTeacher from '@/components/forms/AddFormTeacher.vue'
+import ModalDelete from '@/components/forms/DeleteData.vue'
 //Stores
 import { useTeacherStore } from '@/stores'
 // Interface
@@ -110,6 +112,7 @@ const props = defineProps({
 })
 // Const
 const dialog = ref<boolean>(false)
+const dialogDelete = ref<boolean>(false)
 const search = ref<string>('')
 const data = ref<TeachersData[]>([])
 const editedIndex = ref<number>(-1)
@@ -174,6 +177,23 @@ const close = () => {
   editedIndex.value = -1
 }
 
+const deleteItem = (item: TeachersData) => {
+  editedIndex.value = props.items!.indexOf(item)
+  editedItem.value = Object.assign({}, item)
+  dialogDelete.value = true
+}
+
+const deleteItemConfirm = async () => {
+  await teacher.deleteTeacher(editedItem.value.id!)
+  closeDelete()
+}
+
+const closeDelete = () => {
+  dialogDelete.value = false
+  editedItem.value = Object.assign({}, defaultItem.value)
+  editedIndex.value = -1
+}
+
 const save = async () => {
   try {
     let { id, cc, phone, ...res } = editedItem.value
@@ -201,8 +221,8 @@ const save = async () => {
 
 const updateStatus = async () => {
   try {
-    let { id, status } = editedItem.value    
-    console.log(id,status);
+    let { id, status } = editedItem.value
+    console.log(id, status)
     // await teacher.updateStatus(id!, status)
   } catch (error: any) {
     showSnackbar.value = true

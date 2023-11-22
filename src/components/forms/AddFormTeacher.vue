@@ -19,6 +19,7 @@
                 type="number"
                 min="0"
                 variant="underlined"
+                color="tradewind500"
                 clearable
               ></v-text-field>
             </v-col>
@@ -29,6 +30,7 @@
                 label="Nombre Completo"
                 type="text"
                 variant="underlined"
+                color="tradewind500"
               ></v-text-field>
             </v-col>
             <v-col cols="12" sm="6" md="6">
@@ -38,6 +40,7 @@
                 label="Correo electronico"
                 type="email"
                 variant="underlined"
+                color="tradewind500"
               ></v-text-field>
             </v-col>
             <v-col cols="12" sm="6" md="6">
@@ -48,6 +51,7 @@
                 type="number"
                 min="0"
                 variant="underlined"
+                color="tradewind500"
                 clearable
               ></v-text-field>
             </v-col>

@@ -9,6 +9,7 @@
             label="Nombre completo"
             type="text"
             variant="underlined"
+            color="tradewind500"
             required
           ></v-text-field>
         </v-col>
@@ -19,8 +20,8 @@
             label="Programa"
             :rules="requiredValue"
             :items="dataSelectCarrer"
-            :hide-selected="true"
             variant="underlined"
+            color="tradewind500"
             type="text"
             clearable
           />

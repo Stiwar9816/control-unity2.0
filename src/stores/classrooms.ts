@@ -41,6 +41,14 @@ export const useClassroomsStore = defineStore({
       })
       if (error) throw new Error(`${error.message}`)
       return (this.items = room as ClassroomsData[])
+    },
+    async deleteRoom(room_id: string) {
+      // Elimina un Salón
+      let { data: room, error } = await supabase.rpc('delete_classroom_by_id', {
+        room_id
+      })
+      if (error) throw new Error(`${error.message}`)
+      return (this.items = room as ClassroomsData[])
     }
   }
 })

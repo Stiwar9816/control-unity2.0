@@ -51,6 +51,14 @@ export const useImplementsStore = defineStore({
       })
       if (error) throw new Error(`${error.message}`)
       return (this.items = implement as ImplementsData[])
+    },
+    async deleteImplement(implement_id: string) {
+      // Elimina un implemento
+      let { data: implement, error } = await supabase.rpc('delete_implement_by_id', {
+        implement_id
+      })
+      if (error) throw new Error(`${error.message}`)
+      return (this.items = implement as ImplementsData[])
     }
   }
 })
