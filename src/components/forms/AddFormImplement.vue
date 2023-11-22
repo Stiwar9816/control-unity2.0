@@ -143,7 +143,6 @@ const props = defineProps({
     type: Function
   }
 })
-console.log('data responsible', props.dataForm!.responsible)
 // Selects
 const dataSelectType: string[] = ['Portatil', 'Tv', 'Video Beam', 'Subwoofer']
 //Stores
@@ -154,7 +153,6 @@ const implement = useImplementsStore()
 const initialize = async () => {
   try {
     await Promise.all([implement.allUsersSelect()])
-    console.log(implement.usersSelect);
   } catch (error: any) {
     throw new Error(`Ha ocurrido un error: ${error}`)
   }

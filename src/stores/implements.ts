@@ -14,7 +14,7 @@ export const useImplementsStore = defineStore({
       { title: 'Tipo', sortable: true, key: 'type' },
       { title: 'Modelo', sortable: false, key: 'model' },
       { title: 'Ubicación', sortable: true, key: 'location' },
-      { title: 'Responsable', sortable: true, key: 'responsible' },
+      { title: 'Responsable', sortable: true, key: 'responsible_name' },
       { title: 'Nota', sortable: false, key: 'note' },
       { title: 'Estado', sortable: true, key: 'status' },
       { title: 'Acciones', sortable: false, key: 'actions' }

@@ -201,7 +201,6 @@ const save = async () => {
 
 const updateStatus = async () => {
   try {
-    console.log('Valor de editedItem.value:', editedItem.value)
     let { id, status } = editedItem.value    
     console.log(id,status);
     // await teacher.updateStatus(id!, status)
