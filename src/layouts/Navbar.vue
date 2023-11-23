@@ -20,7 +20,7 @@ import { useLayoutStore } from '@/stores'
 const storeLayout = useLayoutStore()
 
 const nameProfile = ref('')
-const name = storeLayout.nameProfile.then((name) => {
+const name = storeLayout.nameProfile.then((name: string) => {
   nameProfile.value = name
 })
 </script>

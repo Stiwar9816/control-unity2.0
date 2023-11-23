@@ -7,6 +7,7 @@ import ImplementsViewVue from "@/views/ImplementsView.vue";
 import LoginViewVue from "@/views/LoginView.vue";
 import TeachersViewVue from "@/views/TeachersView.vue";
 import UsersViewVue from "@/views/UsersView.vue";
+import { requiredAuth, useGuard } from "@/middlewares/auth";
 
 const router = createRouter({
 	history: createWebHistory(import.meta.env.BASE_URL),
@@ -18,6 +19,7 @@ const router = createRouter({
 			meta: {
 				layout: "Default",
 			},
+			beforeEnter: useGuard
 		},
 		{
 			path: "/home",
@@ -25,7 +27,9 @@ const router = createRouter({
 			component: HomeView,
 			meta: {
 				layout: "Dashboard",
+				requireAuth: true
 			},
+			beforeEnter: requiredAuth
 		},
 		{
 			path: "/bookings",
@@ -33,7 +37,9 @@ const router = createRouter({
 			component: BookingsViewVue,
 			meta: {
 				layout: "Dashboard",
+				requireAuth: true
 			},
+			beforeEnter: requiredAuth
 		},
 		{
 			path: "/classrooms",
@@ -41,7 +47,9 @@ const router = createRouter({
 			component: ClassroomsViewVue,
 			meta: {
 				layout: "Dashboard",
+				requireAuth: true
 			},
+			beforeEnter: requiredAuth
 		},
 		{
 			path: "/curriculum",
@@ -49,7 +57,9 @@ const router = createRouter({
 			component: CurriculumViewVue,
 			meta: {
 				layout: "Dashboard",
+				requireAuth: true
 			},
+			beforeEnter: requiredAuth
 		},
 		{
 			path: "/implements",
@@ -57,7 +67,9 @@ const router = createRouter({
 			component: ImplementsViewVue,
 			meta: {
 				layout: "Dashboard",
+				requireAuth: true
 			},
+			beforeEnter: requiredAuth
 		},
 		{
 			path: "/users",
@@ -65,7 +77,9 @@ const router = createRouter({
 			component: UsersViewVue,
 			meta: {
 				layout: "Dashboard",
+				requireAuth: true
 			},
+			beforeEnter: requiredAuth
 		},
 		{
 			path: "/teachers",
@@ -73,7 +87,9 @@ const router = createRouter({
 			component: TeachersViewVue,
 			meta: {
 				layout: "Dashboard",
+				requireAuth: true
 			},
+			beforeEnter: requiredAuth
 		},
 	],
 });

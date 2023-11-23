@@ -12,6 +12,6 @@ export type {
   UserData,
   UsersTable
 } from './table'
-export type { SigninInput } from './auth'
+export type { SigninInput, AuthState } from './auth'
 export type { Routes } from './Routes'
 export type { ErrorState } from './errors'
