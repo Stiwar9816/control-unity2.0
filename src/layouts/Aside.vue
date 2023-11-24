@@ -32,7 +32,7 @@
 				:prepend-icon="item.icon"
 				:value="item.name"
 				:to="item.route"
-				active-color="tradewind950"
+				color="tradewind950"
 			>
 				{{ item.name }}
 				<v-tooltip activator="parent" location="end">{{ item.name }}</v-tooltip>

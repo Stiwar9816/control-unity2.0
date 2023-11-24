@@ -14,6 +14,14 @@
         variant="underlined"
       ></v-text-field>
       <!-- End Input Search -->
+      <div class="d-md-flex d-sm-block">
+        <!-- Button Export -->
+        <ButtonExportExcel class="my-5" :fn-export="handleExportClick" />
+        <!-- Button Export -->
+        <!-- Button Import -->
+        <ButtonImportExcel class="my-5" />
+        <!-- Button Import -->
+      </div>
     </v-col>
     <v-data-table
       :headers="props.headers"
@@ -21,6 +29,7 @@
       :search="search"
       :items-per-page="10"
       :sort-by="[{ key: 'name', order: 'asc' }]"
+      ref="tableImplement"
     >
       <template v-slot:top>
         <v-toolbar class="rounded-lg" color="tradewind50" density="comfortable" flat>
@@ -103,10 +112,14 @@ import { ref, type DeepReadonly, onMounted, computed } from 'vue'
 // Components
 import AddFormImplement from '@/components/forms/AddFormImplement.vue'
 import ModalDelete from '@/components/forms/DeleteData.vue'
+import ButtonExportExcel from '@/components/buttons/ButtonExportExcel.vue'
+import ButtonImportExcel from '@/components/buttons/ButtonImportExcel.vue'
 //Stores
 import { useImplementsStore } from '@/stores'
 // Interface
 import type { DataTableHeader, ImplementsData } from '@/interface'
+// utils
+import { exportData } from '@/utils'
 // Props
 const props = defineProps({
   headers: Array as () => DeepReadonly<DataTableHeader[] | DataTableHeader[][]>,
@@ -115,6 +128,7 @@ const props = defineProps({
 // Const
 const dialog = ref<boolean>(false)
 const dialogDelete = ref<boolean>(false)
+const tableImplement = ref<HTMLElement | null>(null)
 const search = ref<string>('')
 const data = ref<ImplementsData[]>([])
 const editedIndex = ref<number>(-1)
@@ -158,6 +172,18 @@ const initialize = async () => {
 onMounted(() => {
   initialize()
 })
+
+// Exportar información de la tabla a excel
+const handleExportClick = () => {
+  /* Espera los siguiente parametros:
+    Props: Contiene los headers e items de la tabla
+    tableRef: La propiedad ref del datatable por medio de este se hara referencia
+    al elemento de donde obtendra la información
+    worksheetName: Nombre de la hoja de la calculo
+    nameSheet: Nombre del archivo a exportar 
+  */
+  exportData(props, tableImplement, 'Implementos', 'Información_Implementos')
+}
 
 const formTitle = computed(() => {
   return !editedItem.value.id ? 'Nuevo Implemento' : 'Editar Implemento'

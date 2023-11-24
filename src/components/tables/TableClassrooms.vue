@@ -14,13 +14,24 @@
         variant="underlined"
       ></v-text-field>
       <!-- End Input Search -->
+      <div class="d-md-flex d-sm-block">
+        <!-- Button Export -->
+        <ButtonExportExcel class="my-5" :fn-export="handleExportClick" />
+        <!-- Button Export -->
+        <!-- Button Import -->
+        <ButtonImportExcel class="my-5" />
+        <!-- Button Import -->
+      </div>
+      <v-spacer />
     </v-col>
+
     <v-data-table
       :headers="props.headers"
       :items="props.items"
       :search="search"
       :items-per-page="10"
       :sort-by="[{ key: 'nomenclature', order: 'asc' }]"
+      ref="tableClassroom"
     >
       <template v-slot:top>
         <v-toolbar class="rounded-lg" color="tradewind50" density="comfortable" flat>
@@ -101,10 +112,14 @@ import { ref, type DeepReadonly, onMounted, computed } from 'vue'
 // Components
 import AddFormClassroom from '@/components/forms/AddFormClassroom.vue'
 import ModalDelete from '@/components/forms/DeleteData.vue'
+import ButtonExportExcel from '@/components/buttons/ButtonExportExcel.vue'
+import ButtonImportExcel from '@/components/buttons/ButtonImportExcel.vue'
 // Stores
 import { useClassroomsStore } from '@/stores'
 // Interface
 import type { DataTableHeader, ClassroomsData } from '@/interface'
+// utils
+import { exportData } from '@/utils'
 // Props
 const props = defineProps({
   headers: Array as () => DeepReadonly<DataTableHeader[] | DataTableHeader[][]>,
@@ -113,6 +128,7 @@ const props = defineProps({
 // Const
 const dialog = ref<boolean>(false)
 const dialogDelete = ref<boolean>(false)
+const tableClassroom = ref<HTMLElement | null>(null)
 const search = ref<string>('')
 const data = ref<ClassroomsData[]>([])
 const editedIndex = ref<number>(-1)
@@ -150,6 +166,18 @@ const initialize = async () => {
 onMounted(() => {
   initialize()
 })
+
+// Exportar información de la tabla a excel
+const handleExportClick = () => {
+  /* Espera los siguiente parametros:
+    Props: Contiene los headers e items de la tabla
+    tableRef: La propiedad ref del datatable por medio de este se hara referencia
+    al elemento de donde obtendra la información
+    worksheetName: Nombre de la hoja de la calculo
+    nameSheet: Nombre del archivo a exportar 
+  */
+  exportData(props, tableClassroom, 'Salones', 'Información_Salones')
+}
 
 const formTitle = computed(() => {
   return !editedItem.value.id ? 'Nuevo Salón' : 'Editar Salón'

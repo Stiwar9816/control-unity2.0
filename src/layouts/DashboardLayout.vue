@@ -3,7 +3,7 @@
     <AppNav />
     <AppAsideMenu />
     <v-main>
-      <v-container>
+      <v-container fluid>
         <slot></slot>
       </v-container>
     </v-main>

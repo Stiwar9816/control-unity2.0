@@ -11,7 +11,7 @@ export const useUserStore = defineStore({
       { title: 'C.C', sortable: false, key: 'cc' },
       { title: 'Nombre Completo', sortable: false, key: 'name' },
       { title: 'Teléfono', sortable: false, key: 'phone' },
-      { title: 'Email', sortable: false, key: 'email' },
+      { title: 'Correo electronico', sortable: false, key: 'email' },
       { title: 'Rol', sortable: true, key: 'role' },
       { title: 'Estado', sortable: true, key: 'status' },
       { title: 'Acciones', sortable: false, align: 'center', key: 'actions' }
