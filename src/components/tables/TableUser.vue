@@ -229,7 +229,11 @@ const save = async () => {
   phone = +phone
   try {
     if (!id) {
-      console.log('User Save')
+      await user.createUser({cc,phone, ...res})
+      showSnackbar.value = true
+      message.value = `¡El usuario ${res.name} fue actualizado con exito!`
+      color.value = 'tradewind600'
+      close()
     } else {
       await user.updateUser(id, { cc, phone, ...res })
       showSnackbar.value = true
@@ -238,6 +242,7 @@ const save = async () => {
       close()
     }
   } catch (error: any) {
+    console.log(error);
     showSnackbar.value = true
     message.value = `¡Ha ocurrido un error: ${error.message}!`
     color.value = 'red-darken-3'

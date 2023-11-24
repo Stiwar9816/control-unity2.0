@@ -59,6 +59,14 @@ export const useImplementsStore = defineStore({
       })
       if (error) throw new Error(`${error.message}`)
       return (this.items = implement as ImplementsData[])
+    },
+    async getResponsibleUUID(responsible_name: string) {
+      let { data, error } = await supabase.rpc('get_responsible_uuid', {
+        responsible_name
+      })
+      if (error) throw new Error(`${error.message}`)
+      console.log(data)
+      return data
     }
   }
 })

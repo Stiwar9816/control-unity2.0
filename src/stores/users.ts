@@ -3,6 +3,7 @@ import { defineStore } from 'pinia'
 import type { Field, UserData, UsersTable } from '@/interface'
 // Utils
 import { supabase } from '@/utils'
+import { randomPassword } from '@/utils/randomPassword'
 
 export const useUserStore = defineStore({
   id: 'users',
@@ -24,6 +25,34 @@ export const useUserStore = defineStore({
       let { data: users, error } = await supabase.rpc('list_users')
       if (error) throw new Error(`${error.message}`)
       return (this.items = users as UserData[])
+    },
+    async createUser(payload: UserData) {
+
+      // console.log(payload.email);
+      
+      const passwordGenered = randomPassword(12)
+
+      const { data, error } = await supabase.auth.admin.createUser({
+        email: payload.email,
+        password: passwordGenered,
+        nonce: randomPassword(9),
+        user_metadata: {
+          name: payload.name,
+          email: payload.email,
+          password: passwordGenered,
+          phone: payload.phone,
+          role: payload.role,
+          status: false,
+          cc: payload.cc
+        }
+      })
+      console.log(error);
+      if (error) throw new Error(`${error.message}`)
+      if (data) {
+        await supabase.auth.admin.inviteUserByEmail(`${data.user.email}`)
+        const users = await this.allUsers()
+        return (this.items = users as UserData[])
+      }
     },
     async updateUser(user_id: string, data_user: UserData) {
       // Actualiza la información de un usuario

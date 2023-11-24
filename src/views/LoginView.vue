@@ -1,27 +1,32 @@
 <template>
-  <div class="login">
-    <v-row no-gutters>
-      <v-col cols="12">
-        <v-sheet color="tradewind500" rounded="lg" width="360" elevation="2" class="mx-auto pa-6">
-          <form>
-            <v-img
-              src="/images/LOGO_BLANCO.svg"
-              alt="Logo Control Unity"
-              height="140"
-              class="mb-3"
-            />
-            <v-text-field
-              v-model="signinData.cc"
-              label="N° de identificación"
-              type="number"
-              min="0"
-              aria-label="CC"
-              variant="underlined"
-              prepend-icon="mdi-clipboard-account"
-              aria-autocomplete="none"
-              required
-              clearable
-            ></v-text-field>
+	<div class="login">
+		<v-row no-gutters>
+			<v-col cols="12">
+				<v-sheet
+					color="tradewind500"
+					rounded="lg"
+					width="360"
+					elevation="2"
+					class="mx-auto pa-6"
+				>
+					<form @submit.prevent="handleLogin">
+						<v-img
+							src="/images/LOGO_BLANCO.svg"
+							alt="Logo Control Unity"
+							height="140"
+							class="mb-3"
+						/>
+						<v-text-field
+							v-model="signinData.email"
+							label="Correo electronico"
+							type="email"
+							aria-label="Email"
+							variant="underlined"
+							prepend-icon="mdi-clipboard-account"
+							
+							required
+							clearable
+						></v-text-field>
 
             <v-text-field
               v-model="signinData.password"
@@ -61,16 +66,43 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref } from 'vue'
+import {reactive, ref} from "vue";
 // Interface
-import type { SigninInput } from '@/interface'
+import type {SigninInput} from "@/interface";
+import router from '../router/index';
+import { useAuthStore, useErrorsStore } from '../stores';
 // Let
-let show = ref<Boolean>(false)
+let show = ref<Boolean>(false);
+const showSnackbar = ref(false)
+const color = ref('')
+const message = ref('')
 // Const
-const signinData: SigninInput = {
-  cc: 0,
-  password: ''
+const initialSigninData: SigninInput = {
+	email: "",
+	password: "",
+};
+const signinData = reactive({
+  ...initialSigninData
+})
+const errors = useErrorsStore()
+const authStore = useAuthStore()
+
+const handleLogin = async () => {
+  try {
+    const signinInput: SigninInput = {
+      email: signinData.email,
+      password: signinData.password
+    }
+    await authStore.login(signinInput)
+    router.push({ name: 'home' })
+  } catch (error: any) {
+    showSnackbar.value = true
+    message.value = `¡Ha ocurrido un error: ${error.message}!`
+    color.value = 'red-darken-3'
+    errors.$reset()
+  }
 }
+
 </script>
 
 <style>

@@ -53,7 +53,8 @@ export interface ImplementsData {
   type: string
   model?: string
   location: string
-  responsible: string
+  responsible?: string
+  responsible_name?: string
   note?: string
   status?: boolean
 }

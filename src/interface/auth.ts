@@ -8,6 +8,6 @@ export type AuthState = {
 }
 
 export interface SigninInput {
-  cc: number
+  email: string
   password: string
 }

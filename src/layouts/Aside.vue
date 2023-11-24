@@ -38,7 +38,7 @@
 				<v-tooltip activator="parent" location="end">{{ item.name }}</v-tooltip>
 			</v-list-item>
 
-			<v-list-item prepend-icon="mdi-power-cycle" value="Logout">
+			<v-list-item prepend-icon="mdi-power-cycle" value="Logout" @click="logout">
 				<template v-slot:prepend>
 					<v-icon color="tradewind950" icon="mdi-logout"></v-icon>
 				</template>
@@ -50,16 +50,24 @@
 </template>
 
 <script lang="ts" setup>
-import {ref} from "vue";
+import {computed, ref} from "vue";
 // Store
-import {useLayoutStore} from "@/stores";
+import { useLayoutStore } from '../stores/layout';
+import { useAuthStore } from "../stores/useAuth";
 // Initialization Store
 const storeLayout = useLayoutStore();
+const authStore = useAuthStore()
 
 const nameProfile = ref<String>("");
 const name: Promise<void> = storeLayout.nameProfile.then((name: string) => {
 	nameProfile.value = name;
 });
+
+const isAuthenticated = computed(() => !!authStore.token)
+
+const logout = () => {
+  return authStore.logout()
+}
 </script>
 
 <style scoped>
