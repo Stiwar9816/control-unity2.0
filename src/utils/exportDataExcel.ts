@@ -42,6 +42,6 @@ export const exportData = (
     const file = new Blob([wbout], { type: 'application/octet-stream' })
     FileSaver.saveAs(file, fileName)
   } catch (error: any) {
-    console.log(error)
+    throw new Error(error.message)
   }
 }

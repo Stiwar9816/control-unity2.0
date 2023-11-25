@@ -15,7 +15,7 @@ export const handleUsersData = async (rowData: any) => {
     }
     // Agregar datos de los usuarios
     console.log(usersData)
-  } catch (error) {
-    console.error('Error al agregar los usuarios:', error)
+  } catch (error: any) {
+    throw new Error(`'Error al agregar los usuarios:', ${error.message}`)
   }
 }

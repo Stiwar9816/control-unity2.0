@@ -22,7 +22,7 @@ export const handleImplementData = async (rowData: any) => {
     }
     // Agregar datos de los implementos
     await implement.addImplement(implementsData)
-  } catch (error) {
-    console.error('Error al agregar los implementos:', error)
+  } catch (error: any) {
+    throw new Error(`'Error al agregar los implementos:', ${error.message}`)
   }
 }

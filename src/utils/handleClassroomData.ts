@@ -15,7 +15,7 @@ export const handleClassroomData = async (rowData: any) => {
     }
     // Agregar datos de los salones
     await room.addRoom(classroomData)
-  } catch (error) {
-    console.error('Error al agregar los salones:', error)
+  } catch (error: any) {
+    throw new Error(`'Error al agregar los salones:', ${error.message}`)
   }
 }

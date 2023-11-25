@@ -1,5 +1,6 @@
 import type { NavigationGuardNext, RouteLocationNormalized } from 'vue-router'
-import { useAuthStore } from '@/stores/useAuth'
+// Store
+import { useAuthStore } from '@/stores'
 
 export const requiredAuth = (
   to: RouteLocationNormalized,
@@ -7,6 +8,7 @@ export const requiredAuth = (
   next: NavigationGuardNext
 ): void => {
   if (to.matched.some((record) => record.meta.requireAuth)) {
+    // Initialization Store
     const authStore = useAuthStore()
     if (!authStore.isAuthenticated) {
       next({ path: '/' })
@@ -23,6 +25,7 @@ export const useGuard = (
   from: RouteLocationNormalized,
   next: NavigationGuardNext
 ): void => {
+  // Initialization Store
   const authStore = useAuthStore()
   if (authStore.isAuthenticated) {
     next({ path: '/home' })

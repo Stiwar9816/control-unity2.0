@@ -13,7 +13,7 @@ export const handleTeacherData = async (rowData: any) => {
       status: rowData['Estado']
     }
     await teacher.addTeacher(teacherData)
-  } catch (error) {
-    console.error('Error al agregar los docentes:', error)
+  } catch (error: any) {
+    throw new Error(`'Error al agregar los docentes:', ${error.message}`)
   }
 }

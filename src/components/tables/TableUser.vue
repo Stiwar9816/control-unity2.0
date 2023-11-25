@@ -18,9 +18,6 @@
         <!-- Button Export -->
         <ButtonExportExcel class="my-5" :fn-export="handleExportClick" />
         <!-- Button Export -->
-        <!-- Button Import -->
-        <ButtonImportExcel class="my-5" />
-        <!-- Button Import -->
       </div>
     </v-col>
     <v-spacer />
@@ -113,7 +110,6 @@ import { ref, type DeepReadonly, onMounted, computed } from 'vue'
 import AddFormUser from '@/components/forms/AddFormUser.vue'
 import ModalDelete from '@/components/forms/DeleteData.vue'
 import ButtonExportExcel from '@/components/buttons/ButtonExportExcel.vue'
-import ButtonImportExcel from '@/components/buttons/ButtonImportExcel.vue'
 // Stores
 import { useUserStore } from '@/stores'
 // Interface
@@ -229,7 +225,7 @@ const save = async () => {
   phone = +phone
   try {
     if (!id) {
-      await user.createUser({cc,phone, ...res})
+      await user.createUser({ cc, phone, ...res })
       showSnackbar.value = true
       message.value = `¡El usuario ${res.name} fue actualizado con exito!`
       color.value = 'tradewind600'
@@ -242,7 +238,7 @@ const save = async () => {
       close()
     }
   } catch (error: any) {
-    console.log(error);
+    console.log(error)
     showSnackbar.value = true
     message.value = `¡Ha ocurrido un error: ${error.message}!`
     color.value = 'red-darken-3'

@@ -1,7 +1,6 @@
 export const validateAndIterateRows = (data: any, callback: any) => {
   if (data.length < 1) {
-    console.error('El archivo no contiene suficientes datos para la importación.')
-    return
+    throw new Error('El archivo no contiene suficientes datos para la importación.')
   }
 
   const headers = data[0]
@@ -17,4 +16,3 @@ export const validateAndIterateRows = (data: any, callback: any) => {
     callback(rowData)
   }
 }
-

@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 import type { Field, UserData, UsersTable } from '@/interface'
 // Utils
 import { supabase } from '@/utils'
-import { randomPassword } from '@/utils/randomPassword'
+import { randomPassword } from '@/utils'
 
 export const useUserStore = defineStore({
   id: 'users',
@@ -27,9 +27,9 @@ export const useUserStore = defineStore({
       return (this.items = users as UserData[])
     },
     async createUser(payload: UserData) {
+      // Crea un usuario nuevo
 
-      // console.log(payload.email);
-      
+      // Contraseña aleartoria
       const passwordGenered = randomPassword(12)
 
       const { data, error } = await supabase.auth.admin.createUser({
@@ -46,7 +46,6 @@ export const useUserStore = defineStore({
           cc: payload.cc
         }
       })
-      console.log(error);
       if (error) throw new Error(`${error.message}`)
       if (data) {
         await supabase.auth.admin.inviteUserByEmail(`${data.user.email}`)

@@ -9,8 +9,6 @@ export const determineRoute = (workbook: XLSX.WorkBook): string => {
     return 'teacher'
   } else if (sheetName.toLowerCase().includes('implementos')) {
     return 'implement'
-  } else if (sheetName.toLowerCase().includes('usuarios')) {
-    return 'user'
   } else if (sheetName.toLowerCase().includes('salones')) {
     return 'classroom'
   } else {

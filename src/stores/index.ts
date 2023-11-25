@@ -1,4 +1,3 @@
-export { useAuthStore } from './auth'
 export { useBookingsStore } from './bookings'
 export { useClassroomsStore } from './classrooms'
 export { useErrorsStore } from './useErrors'

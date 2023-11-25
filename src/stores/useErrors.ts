@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+// Interface
 import type { ErrorState } from '@/interface'
 
 export const useErrorsStore = defineStore({

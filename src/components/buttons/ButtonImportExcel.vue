@@ -39,7 +39,17 @@
       show-size
       @change="handleFileChange"
       style="display: none"
-    ></v-file-input>
+    />
+
+    <v-snackbar
+      v-model="showSnackbar"
+      :timeout="4000"
+      :color="color"
+      rounded="pill"
+      location="bottom right"
+    >
+      {{ message }}
+    </v-snackbar>
   </div>
 </template>
 
@@ -53,7 +63,6 @@ import {
   handleClassroomData,
   handleImplementData,
   handleTeacherData,
-  handleUsersData,
   validateAndIterateRows
 } from '@/utils'
 // Const
@@ -61,6 +70,10 @@ const file = ref<File | any>(null)
 const fileInputRef = ref<HTMLInputElement | null>(null)
 const loading = ref<Boolean>(false)
 const importCompleted = ref<Boolean>(false)
+// Alerts
+const showSnackbar = ref<boolean>(false)
+const color = ref<string>('')
+const message = ref<string>('')
 // Props
 const props = defineProps({
   labelButton: {
@@ -102,9 +115,6 @@ const handleFileChange = async () => {
         case 'teacher':
           validateAndIterateRows(data, handleTeacherData)
           break
-        case 'user':
-          validateAndIterateRows(data, handleUsersData)
-          break
         case 'implement':
           validateAndIterateRows(data, handleImplementData)
           break
@@ -113,12 +123,13 @@ const handleFileChange = async () => {
         // Agrega más casos según tus necesidades
         default:
           // Handle default case
-          console.error('El archivo contiene un esquema invalido')
-          break
+          throw new Error('El archivo contiene un esquema invalido')
       }
     }
-  } catch (error) {
-    console.error('Error al manejar el cambio de archivo', error)
+  } catch (error: any) {
+    showSnackbar.value = true
+    message.value = `¡Error al manejar el cambio de archivo: ${error.message}!`
+    color.value = 'red-darken-3'
   } finally {
     // Espera 1 segundo para cambiar el estado del loading y el chip
     setTimeout(() => {
