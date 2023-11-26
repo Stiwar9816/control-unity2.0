@@ -55,9 +55,15 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+// xlsx
 import * as XLSX from 'xlsx'
+// Types
+import type { TeacherRow, ClassroomRow, ImplementRow } from '@/types'
 //Utils
 import {
+  checkForDuplicateImplement,
+  checkForDuplicateRoom,
+  checkForDuplicateTeacher,
   determineRoute,
   formatBytes,
   handleClassroomData,
@@ -70,6 +76,9 @@ const file = ref<File | any>(null)
 const fileInputRef = ref<HTMLInputElement | null>(null)
 const loading = ref<Boolean>(false)
 const importCompleted = ref<Boolean>(false)
+const existingTeacherNames = ref<string[]>([])
+const existingRoomNames = ref<string[]>([])
+const existingImplementNames = ref<string[]>([])
 // Alerts
 const showSnackbar = ref<boolean>(false)
 const color = ref<string>('')
@@ -103,7 +112,7 @@ const handleFileChange = async () => {
     loading.value = true
     importCompleted.value = false
     if (file.value && file.value.length > 0) {
-      const importedFile = file.value[0]
+      const [importedFile]: File[] = file.value
       // Leyendo el archivo de excel
       const workbook = XLSX.read(await importedFile.arrayBuffer(), { type: 'array' })
       const sheet = workbook.Sheets[workbook.SheetNames[0]]
@@ -113,13 +122,38 @@ const handleFileChange = async () => {
 
       switch (route) {
         case 'teacher':
-          validateAndIterateRows(data, handleTeacherData)
+          await validateAndIterateRows(
+            data,
+            (rowData: TeacherRow) =>
+              handleTeacherData(rowData, showSnackbar, message, color, existingTeacherNames.value),
+            true,
+            checkForDuplicateTeacher
+          )
           break
         case 'implement':
-          validateAndIterateRows(data, handleImplementData)
+          validateAndIterateRows(
+            data,
+            (rowData: ImplementRow) =>
+              handleImplementData(
+                rowData,
+                showSnackbar,
+                message,
+                color,
+                existingImplementNames.value
+              ),
+            true,
+            checkForDuplicateImplement
+          )
           break
         case 'classroom':
-          validateAndIterateRows(data, handleClassroomData)
+          validateAndIterateRows(
+            data,
+            (rowData: ClassroomRow) =>
+              handleClassroomData(rowData, showSnackbar, message, color, existingRoomNames.value),
+            true,
+            checkForDuplicateRoom
+          )
+          break
         // Agrega más casos según tus necesidades
         default:
           // Handle default case
@@ -128,7 +162,7 @@ const handleFileChange = async () => {
     }
   } catch (error: any) {
     showSnackbar.value = true
-    message.value = `¡Error al manejar el cambio de archivo: ${error.message}!`
+    message.value = `Error al manejar el cambio de archivo: ${error.message || error}`
     color.value = 'red-darken-3'
   } finally {
     // Espera 1 segundo para cambiar el estado del loading y el chip

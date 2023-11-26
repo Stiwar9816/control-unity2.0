@@ -48,6 +48,14 @@ export const useTeacherStore = defineStore({
       })
       if (error) throw new Error(`${error.message}`)
       return (this.items = teacher as TeachersData[])
+    },
+    async getTeacherByCc(teacher_cc: number) {
+      // Busca los docentes por su cc
+      let { data: teacher, error } = await supabase.rpc('get_teacher_by_cc', {
+        teacher_cc
+      })
+      if (error) throw new Error(`${error.message}`)
+      return teacher
     }
   }
 })

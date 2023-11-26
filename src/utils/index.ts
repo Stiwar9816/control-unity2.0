@@ -1,3 +1,12 @@
+export {
+  buildClassrommAlertMessage,
+  buildImplementAlertMessage,
+  buildTeacherAlertMessage,
+  handleDuplicate
+} from './handleDuplicate'
+export { checkForDuplicateImplement } from './checkForDuplicateImplement'
+export { checkForDuplicateRoom } from './checkForDuplicateRoom'
+export { checkForDuplicateTeacher } from './checkForDuplicateTeacher'
 export { determineRoute } from './determineRoute'
 export { emailRules, requiredValue } from './validations'
 export { exportData } from './exportDataExcel'

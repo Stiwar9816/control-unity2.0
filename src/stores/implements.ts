@@ -65,8 +65,14 @@ export const useImplementsStore = defineStore({
         responsible_name
       })
       if (error) throw new Error(`${error.message}`)
-      console.log(data)
       return data
+    },
+    async getImplementBySerial(implement_serial: string) {
+      let { data: implement, error } = await supabase.rpc('get_implement_by_serial', {
+        implement_serial
+      })
+      if (error) throw new Error(`${error.message}`)
+      return implement
     }
   }
 })
