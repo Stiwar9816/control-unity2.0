@@ -42,7 +42,7 @@
               block
               variant="elevated"
               color="tradewind800"
-              rounded="xl"
+              rounded="md"
               size="large"
               class="my-3"
             >

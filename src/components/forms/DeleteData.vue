@@ -17,10 +17,10 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer />
-        <v-btn class="rounded-lg" color="tradewind50" variant="flat" @click="props.modalClose"
+        <v-btn class="rounded-md" color="tradewind50" variant="flat" @click="props.modalClose"
           >Cancelar
         </v-btn>
-        <v-btn class="rounded-lg" color="tradewind500" variant="flat" @click="props.modalSave">
+        <v-btn class="rounded-md" color="tradewind500" variant="flat" @click="props.modalSave">
           Eliminar
         </v-btn>
       </v-card-actions>

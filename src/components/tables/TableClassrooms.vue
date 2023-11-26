@@ -43,7 +43,7 @@
                 prepend-icon="mdi-plus"
                 variant="flat"
                 color="tradewind500"
-                rounded="lg"
+                rounded="md"
                 class="my-2"
                 v-bind="props"
               >

@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 // Router
 import router from '@/router'
 // Utils
-import { supabase } from '@/utils'
+import { randomPassword, supabase } from '@/utils'
 // Interface
 import type { AuthState, SigninInput } from '@/interface'
 
@@ -18,23 +18,6 @@ export const useAuthStore = defineStore({
   },
   actions: {
     async login({ email, password }: SigninInput) {
-      //   const { data: users, error: invalid } = await supabase
-      //     .from('users')
-      //     .select('isActive,email,roles')
-      //     .eq('email', `${email}`)
-      //     .single()
-
-      //   if (invalid) throw new Error(invalid.message)
-
-      //   if (!users) throw new Error('Usuario no encontrado')
-
-      //   if (users?.isActive !== 'Activo')
-      //     throw new Error('Usuario inactivo comuniquese con un administrador')
-
-      //   if (!users.roles || !users.roles.includes('Administrador')) {
-      //     throw new Error('No tienes permisos de administrador para iniciar sesión')
-      //   }
-
       const {
         data: { user, session },
         error
@@ -63,6 +46,32 @@ export const useAuthStore = defineStore({
         this.token = null
         router.replace('/')
       }
+    },
+    async resetPasswordForEmail(email: string) {
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${import.meta.env.VITE_SITE_URL}/update-password`
+      })
+      if (error) {
+        if (error.status === 429 && error.name === 'AuthApiError') {
+          throw new Error(
+            'por motivos de seguridad, solo puedes solicitar esto una vez cada 60 segundos.'
+          )
+        }
+        throw new Error(error.message)
+      }
+    },
+    async updatePassword(password: string) {
+      const { error } = await supabase.auth.updateUser({
+        password
+      })
+      if (error) throw new Error(`${error.message}`)
+    },
+    async updatePasswordAuth(password: string) {
+      const { error } = await supabase.auth.updateUser({
+        password,
+        nonce: randomPassword(12)
+      })
+      if (error) throw new Error(`${error.message}`)
     }
   }
 })
