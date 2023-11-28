@@ -5,8 +5,8 @@
         <v-sheet color="tradewind500" rounded="lg" width="360" elevation="2" class="mx-auto pa-6">
           <form @submit.prevent="handleLogin">
             <v-img
-              src="/images/LOGO_BLANCO.svg"
-              alt="Logo Control Unity"
+              src="/images/LOGO_BLANCO.webp"
+              alt="Logo-Control-Unity"
               height="140"
               class="mb-3"
             />
@@ -59,7 +59,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { reactive, ref } from 'vue'
+import { reactive, ref, onBeforeUnmount } from 'vue'
 // Router
 import router from '@/router'
 // Store
@@ -98,6 +98,7 @@ const handleLogin = async () => {
     errors.$reset()
   }
 }
+onBeforeUnmount(() => errors.$reset())
 </script>
 
 <style>

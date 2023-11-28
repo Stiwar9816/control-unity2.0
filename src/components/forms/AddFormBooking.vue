@@ -28,7 +28,7 @@
         </v-col>
 
         <v-col cols="12" md="4">
-          <v-date-picker  rounded="lg"  show-adjacent-months></v-date-picker>
+          <v-date-picker rounded="md" show-adjacent-months></v-date-picker>
         </v-col>
       </v-row>
     </v-container>
@@ -46,11 +46,12 @@ const props = defineProps({
       name: String,
       carrer: String,
       classroom: String,
-      date: Date,
+      datetime: String,
       implements: Array
     }
   }
 })
+
 // Selects
 const dataSelectCarrer: string[] = [
   'Ingenieria de sitemas',

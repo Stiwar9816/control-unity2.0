@@ -28,7 +28,7 @@
       :items="props.items"
       :search="search"
       :items-per-page="10"
-      :sort-by="[{ key: 'name', order: 'asc' }]"
+      :sort-by="[{ key: 'status', order: 'desc' }]"
       ref="tableTeacher"
     >
       <template v-slot:top>
@@ -84,10 +84,10 @@
       <!-- End Status -->
       <!-- Actions -->
       <template v-slot:item.actions="{ item }">
-        <v-icon size="small" class="me-2" @click="editItem(item)" color="tradewind500">
+        <v-icon size="small" class="me-2" @click="editItem(item)" color="tradewind500" aria-label="button edit">
           mdi-pencil
         </v-icon>
-        <v-icon size="small" color="error" @click="deleteItem(item)"> mdi-delete </v-icon>
+        <v-icon size="small" color="error" @click="deleteItem(item)" aria-label="button delete"> mdi-delete </v-icon>
       </template>
       <!-- End Actions -->
       <template v-slot:no-data>

@@ -10,7 +10,7 @@ export const useBookingsStore = defineStore({
     name: '',
     carrer: '',
     classroom: '',
-    date: '',
+    datetime: '',
     implements: []
   }),
   actions: {}

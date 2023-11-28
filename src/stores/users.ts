@@ -28,10 +28,10 @@ export const useUserStore = defineStore({
     },
     async createUser(payload: UserData) {
       // Crea un usuario nuevo
-
+      
       // Contraseña aleartoria
       const passwordGenered = randomPassword(12)
-
+      
       const { data, error } = await supabase.auth.admin.createUser({
         email: payload.email,
         password: passwordGenered,

@@ -2,8 +2,8 @@
   <div class="tradewind600">
     <v-app-bar class="text-white" color="tradewind500" elevation="0" flat app>
       <template v-slot:prepend>
-        <v-app-bar-nav-icon flat color="white" @click="storeLayout.drawer = !storeLayout.drawer" />
-        <v-img class="ml-n4" width="170" src="/images/LOGO_BLANCO.svg" alt="Logo" />
+        <v-app-bar-nav-icon aria-label="button-drawer" flat color="white" @click="storeLayout.drawer = !storeLayout.drawer" />
+        <v-img class="ml-n4" width="170" src="/images/LOGO_BLANCO.webp" alt="Logo-control-unity" />
      
       </template>
       <v-spacer />
