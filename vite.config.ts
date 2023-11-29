@@ -10,7 +10,7 @@ export default defineConfig({
   plugins: [
     vue(),
     compression({
-      algorithm: 'brotliCompress',
+      algorithm: 'gzip',
       exclude: [/\.(br)$/, /\.(gz)$/]
     }),
     VitePWA({
