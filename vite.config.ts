@@ -8,11 +8,9 @@ import { compression } from 'vite-plugin-compression2'
 export default defineConfig({
   plugins: [
     vue(),
-    compression(),
     compression({
-      algorithm: 'brotliCompress',
-      exclude: [/\.(br)$/, /\.(gz)$/],
-      deleteOriginalAssets: true
+      algorithm: 'gzip',
+      exclude: [/\.(br)$/, /\.(gz)$/]
     }),
     VitePWA({
       registerType: 'prompt',
