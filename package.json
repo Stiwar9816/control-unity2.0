@@ -20,7 +20,7 @@
 		"test:unit": "vitest",
 		"build-only": "vite build",
 		"type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
-		"generate-pwa-assets": "pwa-assets-generator --preset minimal public/images/LOGO_PRINCIPAL.svg"
+		"generate-pwa-assets": "pwa-assets-generator --preset minimal public/images/LOGO_PRINCIPAL_CU.svg"
 	},
 	"dependencies": {
 		"@supabase/supabase-js": "^2.38.3",
