@@ -3,9 +3,7 @@ import { createPinia } from 'pinia'
 import App from './App.vue'
 import router from './router'
 import { registerLayouts } from './layouts/register'
-// Vuetify
 import { vuetify } from './plugins/vuetify'
-// Sercvie Worker
 import { registerSW } from 'virtual:pwa-register'
 const intervalMS = 60 * 60 * 1000
 const updateSW = registerSW({
@@ -13,10 +11,7 @@ const updateSW = registerSW({
     const userConfirmed = window.confirm(
       'Hay una nueva versión disponible. ¿Quieres actualizar la aplicación?'
     )
-
-    if (userConfirmed) {
-      updateSW()
-    }
+    if (userConfirmed) updateSW()
   },
   onOfflineReady() {
     window.alert('Estás listo para trabajar sin conexión.')
@@ -25,9 +20,7 @@ const updateSW = registerSW({
     r &&
       setInterval(async () => {
         if (!(!r.installing && navigator)) return
-
         if ('connection' in navigator && !navigator.onLine) return
-
         const resp = await fetch(swUrl, {
           cache: 'no-store',
           headers: {
@@ -35,7 +28,6 @@ const updateSW = registerSW({
             'cache-control': 'no-cache'
           }
         })
-
         if (resp?.status === 200) await r.update()
       }, intervalMS)
   }
