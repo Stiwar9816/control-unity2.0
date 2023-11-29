@@ -25,9 +25,7 @@ export const useAuthStore = defineStore({
         email,
         password
       })
-
       const tokenSupa = session?.access_token
-
       if (error) {
         throw new Error(error.message)
       } else {
@@ -38,7 +36,6 @@ export const useAuthStore = defineStore({
     },
     async logout() {
       const { error } = await supabase.auth.signOut()
-
       if (error) {
         throw new Error(error.message)
       } else {

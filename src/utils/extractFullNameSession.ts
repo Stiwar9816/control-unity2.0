@@ -10,6 +10,5 @@ export const extractFullNameFromSession = async () => {
   } = await supabase.auth.getUser()
   fullName.value = user?.user_metadata.name || ''
   if (error) throw new Error(`${error.message}`)
-
   return fullName.value
 }

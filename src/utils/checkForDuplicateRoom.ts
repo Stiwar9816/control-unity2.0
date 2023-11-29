@@ -9,7 +9,6 @@ export const checkForDuplicateRoom = async (rowData: ClassroomRow) => {
     const nomenclatureValue = rowData['Nomenclatura']
     console.log(nomenclatureValue)
     const existingRooms = await room.getImplementByNomenclature(nomenclatureValue)
-
     return existingRooms.length > 0 ? existingRooms[0] : null
   } catch (error) {
     console.error('Error al verificar duplicados:', error)

@@ -15,7 +15,6 @@ export const handleTeacherData = async (
   try {
     const teacher = useTeacherStore()
     const existingTeacher = await checkForDuplicateTeacher(rowData)
-
     if (!existingTeacher) {
       // Si no existe, agrégalo
       const teacherData = {

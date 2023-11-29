@@ -46,8 +46,6 @@ export const useLayoutStore = defineStore('layout', () => {
       route: '/users'
     }
   ]
-
   const nameProfile = computed(() => extractFullNameFromSession() || 'No Name')
-
   return { drawer, rail, routes, nameProfile, imageProfile }
 })

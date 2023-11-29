@@ -11,12 +11,10 @@ export const exportData = (
 ) => {
   try {
     if (!tableRef || !props.items || props.items.length === 0) return
-
     // Obtener una lista de los campos que deseas exportar
     const fieldsToExport = props.headers.filter(
       (field: any) => field.key !== 'actions' && field.title !== 'Acciones'
     )
-
     const data = props.items!.map((item: any) => {
       const rowData = fieldsToExport.map((field: any) => {
         // Modificar el valor de la columna 'status'
@@ -28,7 +26,6 @@ export const exportData = (
     })
     // Obtener los encabezados personalizados
     const headers = fieldsToExport.map((field: any) => field.title)
-
     const worksheet = XLSX.utils.json_to_sheet([headers, ...data])
     if (worksheet['!ref']) {
       const range = XLSX.utils.decode_range(worksheet['!ref'])

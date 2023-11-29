@@ -8,7 +8,6 @@ import { vuetify } from './plugins/vuetify'
 // Sercvie Worker
 import { registerSW } from 'virtual:pwa-register'
 const intervalMS = 60 * 60 * 1000
-
 const updateSW = registerSW({
   onNeedRefresh() {
     const userConfirmed = window.confirm(

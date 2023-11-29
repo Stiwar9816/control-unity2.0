@@ -16,7 +16,6 @@ export const handleClassroomData = async (
     // Initialization Store
     const room = useClassroomsStore()
     const existingRoom = await checkForDuplicateRoom(rowData)
-
     if (!existingRoom) {
       const classroomData = {
         nomenclature: rowData['Nomenclatura'],

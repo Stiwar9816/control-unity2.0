@@ -19,7 +19,6 @@ export const handleImplementData = async (
     const responsibleName = rowData['Responsable']
     const responsibleUUID = await implement.getResponsibleUUID(responsibleName)
     const existingImplement = await checkForDuplicateImplement(rowData)
-
     if (!existingImplement) {
       const implementsData = {
         name: rowData['Nombre'],
