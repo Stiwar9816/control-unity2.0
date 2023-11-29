@@ -1,6 +1,6 @@
 <template>
   <v-row no-gutters>
-    <v-col cols="12" md="4">
+    <v-col cols="12">
       <!-- Input Search -->
       <v-text-field
         class="mt-4"
@@ -14,12 +14,12 @@
         variant="underlined"
       ></v-text-field>
       <!-- End Input Search -->
-      <div class="d-md-flex d-sm-block">
+      <div class="d-flex">
         <!-- Button Export -->
-        <ButtonExportExcel class="my-5" :fn-export="handleExportClick" />
+        <ButtonExportExcel class="mt-1 mb-4" :fn-export="handleExportClick" />
         <!-- Button Export -->
         <!-- Button Import -->
-        <ButtonImportExcel class="my-5" />
+        <ButtonImportExcel class="mt-1 mb-4" />
         <!-- Button Import -->
       </div>
       <v-spacer />

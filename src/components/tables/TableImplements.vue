@@ -1,6 +1,6 @@
 <template>
   <v-row no-gutters>
-    <v-col cols="12" md="4">
+    <v-col cols="12">
       <!-- Input Search -->
       <v-text-field
         class="mt-4"
@@ -14,12 +14,12 @@
         variant="underlined"
       ></v-text-field>
       <!-- End Input Search -->
-      <div class="d-md-flex d-sm-block">
+      <div class="d-flex">
         <!-- Button Export -->
-        <ButtonExportExcel class="my-5" :fn-export="handleExportClick" />
+        <ButtonExportExcel class="mt-1 mb-4" :fn-export="handleExportClick" />
         <!-- Button Export -->
         <!-- Button Import -->
-        <ButtonImportExcel class="my-5" />
+        <ButtonImportExcel class="mt-1 mb-4" />
         <!-- Button Import -->
       </div>
     </v-col>
@@ -84,10 +84,18 @@
       <!-- End Status -->
       <!-- Actions -->
       <template v-slot:item.actions="{ item }">
-        <v-icon size="small" class="me-2" @click="editItem(item)" color="tradewind500" aria-label="button edit">
+        <v-icon
+          size="small"
+          class="me-2"
+          @click="editItem(item)"
+          color="tradewind500"
+          aria-label="button edit"
+        >
           mdi-pencil
         </v-icon>
-        <v-icon size="small" color="error" @click="deleteItem(item)" aria-label="button delete"> mdi-delete </v-icon>
+        <v-icon size="small" color="error" @click="deleteItem(item)" aria-label="button delete">
+          mdi-delete
+        </v-icon>
       </template>
       <!-- End Actions -->
       <template v-slot:no-data>

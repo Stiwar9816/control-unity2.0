@@ -1,5 +1,5 @@
 <template>
-  <div class="d-md-flex d-sm-block">
+  <div>
     <v-btn
       prepend-icon="mdi-database-arrow-up-outline"
       variant="flat"

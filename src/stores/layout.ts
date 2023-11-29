@@ -8,7 +8,7 @@ import { extractFullNameFromSession } from '@/utils'
 export const useLayoutStore = defineStore('layout', () => {
   const imageProfile: string = 'mdi-account-circle'
   const drawer: boolean = true
-  const rail: boolean = false
+  const rail: boolean = true
   const routes: Array<Routes> = [
     {
       name: 'Inicio',
