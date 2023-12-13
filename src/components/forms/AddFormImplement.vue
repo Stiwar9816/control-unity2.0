@@ -52,6 +52,7 @@
                 color="tradewind500"
                 type="text"
                 clearable
+                data-cy="selectType"
               >
               </v-select>
             </v-col>
@@ -88,6 +89,8 @@
                 color="tradewind500"
                 type="text"
                 clearable
+                data-cy="selectResponsible"
+               
               >
               </v-select>
             </v-col>

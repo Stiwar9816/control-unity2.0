@@ -42,7 +42,7 @@ export interface TeachersData {
   name: string
   email: string
   phone: number
-  status: boolean | any
+  status?: boolean
 }
 
 export interface ImplementsData {
@@ -65,7 +65,7 @@ export interface UserData {
   email: string
   name: string
   phone: number
-  role?: string[]
+  role?: string
   status?: boolean
 }
 

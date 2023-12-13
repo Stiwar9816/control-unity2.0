@@ -35,8 +35,7 @@
         :value="item.name"
         :to="item.route"
         color="tradewind950"
-        aria-label="route name"
-        role="listitem"
+        role="list"
       >
         {{ item.name }}
         <v-tooltip activator="parent" location="end" role="tooltip" aria-label="{{ item.name }}">{{
@@ -49,7 +48,7 @@
         value="Logout"
         @click="logout"
         role="listitem"
-        aria-label="cerrar sesión"
+        aria-label="cerrar_sesión"
       >
         <template v-slot:prepend>
           <v-icon color="tradewind950" icon="mdi-logout"></v-icon>

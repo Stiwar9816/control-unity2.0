@@ -50,7 +50,7 @@ export const useClassroomsStore = defineStore({
       if (error) throw new Error(`${error.message}`)
       return (this.items = room as ClassroomsData[])
     },
-    async getImplementByNomenclature(name_room: string) {
+    async getClassroomByNomenclature(name_room: string) {
       let { data: room, error } = await supabase.rpc('get_classroom_by_nomenclature', {
         name_room
       })

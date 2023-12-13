@@ -1,6 +1,6 @@
 <template>
   <v-row no-gutters>
-    <v-col cols="12">
+    <v-col cols="12" md="4">
       <!-- Input Search -->
       <v-text-field
         class="mt-4"
@@ -8,6 +8,7 @@
         color="tradewind400"
         density="comfortable"
         label="Buscar implemento"
+        aria-label="search implement"
         prepend-inner-icon="mdi-magnify"
         type="text"
         v-model="search"
@@ -35,7 +36,7 @@
         <v-toolbar class="rounded-lg" color="tradewind50" density="comfortable" flat>
           <v-spacer />
           <!-- Dialog Add/Edit -->
-          <v-dialog v-model="dialog" persistent max-width="600px">
+          <v-dialog v-model="dialog" id="dialogImplement" persistent max-width="600px">
             <template v-slot:activator="{ props }">
               <v-btn
                 prepend-icon="mdi-plus"

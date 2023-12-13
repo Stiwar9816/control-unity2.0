@@ -217,15 +217,15 @@ const deleteItem = (item: TeachersData) => {
   dialogDelete.value = true
 }
 
-const deleteItemConfirm = async () => {
-  await teacher.deleteTeacher(editedItem.value.id!)
-  closeDelete()
-}
-
 const closeDelete = () => {
   dialogDelete.value = false
   editedItem.value = Object.assign({}, defaultItem.value)
   editedIndex.value = -1
+}
+
+const deleteItemConfirm = async () => {
+  await teacher.deleteTeacher(editedItem.value.id!)
+  closeDelete()
 }
 
 const save = async () => {
