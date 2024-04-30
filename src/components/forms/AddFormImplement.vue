@@ -90,7 +90,6 @@
                 type="text"
                 clearable
                 data-cy="selectResponsible"
-               
               >
               </v-select>
             </v-col>

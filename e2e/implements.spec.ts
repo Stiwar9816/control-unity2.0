@@ -1,4 +1,4 @@
-import { test, expect, Page, ElementHandle } from '@playwright/test'
+import { test, expect, Page } from '@playwright/test'
 import { loginViewTest } from './loginView.spec.ts'
 
 const pageImplement = async (page: Page) => {
@@ -6,39 +6,41 @@ const pageImplement = async (page: Page) => {
   await page.goto('/implements')
 }
 const dialogImplement = async (page: Page) => {
-  const inputName = page.getByRole('textbox', { name: 'Nombre' })
-  const inputSerial = page.getByRole('textbox', { name: 'Serial' })
-  const inputManufacture = page.getByRole('textbox', { name: 'Marca' })
-  const inputModel = page.getByRole('textbox', { name: 'Modelo' })
-  const inputLocation = page.getByRole('textbox', { name: 'Ubicación' })
-  const inputNote = page.getByRole('textbox', { name: 'Nota' })
+  const inputName = page.getByLabel('Nombre')
+  const inputSerial = page.getByLabel('Serial')
+  const inputManufacture = page.getByLabel('Marca', { exact: true })
+  const inputModel = page.getByLabel('Modelo', { exact: true })
+  const inputLocation = page.getByLabel('Ubicación', { exact: true })
+  const inputNote = page.getByLabel('Nota', { exact: true })
   // Agreagando valores de prueba
   await inputName.fill('Implement test')
   await inputSerial.fill('Serial test')
   await inputManufacture.fill('Marca test')
-  // Haciendo clic en el v-select para abrir las opciones
+
   await page.click('[data-cy=selectType]')
-  // Esperar a que aparezcan las opciones
   await page.waitForSelector('[data-cy=selectType]')
+  // await page.click('text=Portatil', { strict: true, force: true })
+  // page.getByText('Tv').nth(2)
+  page.getByRole('cell', { name: 'Portatil' }).locator('selectType',{hasText:'Tv'})
   // Seleccionar la opción por texto
-  await page.click('text=Portatil')
   await inputModel.fill('Model test')
   await inputLocation.fill('Ubicación test')
   await page.click('[data-cy=selectResponsible]')
   await page.waitForSelector('[data-cy=selectResponsible]')
-  await page.click('text=user test')
-  await inputNote.fill('Nota test')
+  // await page.click('text=Jhon E Palacios', { strict: true })
+  // page.getByRole('cell', { name: 'Jhon E Palacios' }).first()
 
-  expect(await inputName.inputValue()).toContain('Implement test')
-  expect(await inputSerial.inputValue()).toContain('Serial test')
-  expect(await inputManufacture.inputValue()).toContain('Marca test')
-  expect(await inputModel.inputValue()).toContain('Model test')
+  await inputNote.fill('Nota test')
+  expect(await inputName.inputValue()).toBe('Implement test')
+  expect(await inputSerial.inputValue()).toBe('Serial test')
+  expect(await inputManufacture.inputValue()).toBe('Marca test')
+  expect(await inputModel.inputValue()).toBe('Model test')
   const selectedType = await page.textContent('[data-cy=selectType]')
-  expect(selectedType).toContain('Portatil')
-  expect(await inputLocation.inputValue()).toContain('Ubicación test')
+  expect(selectedType).toBe('Tv')
+  expect(await inputLocation.inputValue()).toBe('Ubicación test')
   const selectedResponsible = await page.textContent('[data-cy=selectResponsible]')
-  expect(selectedResponsible).toContain('user test')
-  expect(await inputNote.inputValue()).toContain('Nota test')
+  expect(selectedResponsible).toBe('Jhon E Palacios')
+  expect(await inputNote.inputValue()).toBe('Nota test')
   const buttonSave = page.getByRole('button', { name: 'Guardar' })
   await buttonSave.click()
 }
