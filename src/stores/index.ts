@@ -1,3 +1,4 @@
+export { useCurriculumsStore } from './curriculum'
 export { useBookingsStore } from './bookings'
 export { useClassroomsStore } from './classrooms'
 export { useErrorsStore } from './useErrors'

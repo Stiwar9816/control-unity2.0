@@ -26,6 +26,10 @@ export interface ClassroomsTable extends header {
   items: ClassroomsData[]
 }
 
+export interface CurriculumTable extends header {
+  items: CurriculumData[]
+}
+
 export interface ClassroomsData {
   id?: string
   nomenclature: string
@@ -56,6 +60,20 @@ export interface ImplementsData {
   responsible?: string
   responsible_name?: string
   note?: string
+  status?: boolean
+}
+
+export interface CurriculumData {
+  id?: string
+  subject: string
+  program: string
+  level: number
+  working_day: string
+  teacher: string
+  time_start: string
+  time_end: string
+  classroom: string
+  schedule: string
   status?: boolean
 }
 

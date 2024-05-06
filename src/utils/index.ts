@@ -2,8 +2,10 @@ export {
   buildClassrommAlertMessage,
   buildImplementAlertMessage,
   buildTeacherAlertMessage,
+  buildCurriculumAlertMessage,
   handleDuplicate
 } from './handleDuplicate'
+export { checkForDuplicateCurriculum } from './checkForDuplicateCurriculum'
 export { checkForDuplicateImplement } from './checkForDuplicateImplement'
 export { checkForDuplicateRoom } from './checkForDuplicateRoom'
 export { checkForDuplicateTeacher } from './checkForDuplicateTeacher'
@@ -12,6 +14,7 @@ export { emailRules, requiredValue } from './validations'
 export { exportData } from './exportDataExcel'
 export { extractFullNameFromSession } from './extractFullNameSession'
 export { formatBytes } from './formatBytes'
+export { handleCurriculumData } from './handleCurriculumData'
 export { handleClassroomData } from './handleClassroomData'
 export { handleImplementData } from './handleImplementData'
 export { handleTeacherData } from './handleTeacherData'

@@ -1,9 +1,10 @@
 <template>
   <v-row no-gutters>
-    <v-col cols="12">
+    <v-col cols="12" md="4">
       <!-- Input Search -->
-      <v-text-field class="mt-4" clearable color="tradewind400" density="comfortable" label="Buscar docente"
-        prepend-inner-icon="mdi-magnify" type="text" v-model="search" variant="underlined"></v-text-field>
+      <v-text-field class="mt-4" clearable color="tradewind400" density="comfortable" label="Buscar asignatura"
+        aria-label="search implement" prepend-inner-icon="mdi-magnify" type="text" v-model="search"
+        variant="underlined"></v-text-field>
       <!-- End Input Search -->
       <div class="d-flex">
         <!-- Button Export -->
@@ -14,25 +15,33 @@
         <!-- Button Import -->
       </div>
     </v-col>
+
     <v-data-table :headers="props.headers" :items="props.items" :search="search" :items-per-page="10"
-      :sort-by="[{ key: 'status', order: 'desc' }]" ref="tableTeacher">
+      :sort-by="[{ key: 'status', order: 'desc' }]" ref="tableCurriculum">
       <template v-slot:top>
         <v-toolbar class="rounded-lg" color="tradewind50" density="comfortable" flat>
           <v-spacer />
           <!-- Dialog Add/Edit -->
-          <v-dialog v-model="dialog" persistent max-width="600px">
+          <v-dialog v-model="dialog" id="dialogImplement" persistent max-width="600px">
             <template v-slot:activator="{ props }">
-              <v-btn prepend-icon="mdi-plus" variant="flat" color="tradewind500" rounded="md" class="my-2"
-                v-bind="props">
-                Nuevo Docente
+              <v-btn
+                prepend-icon="mdi-plus"
+                variant="flat"
+                color="tradewind500"
+                rounded="md"
+                class="my-2"
+                v-bind="props"
+              >
+                Nuevo asignatura
               </v-btn>
             </template>
-            <AddFormTeacher :form-title="formTitle" :data-form="editedItem" :modal-close="close" :modal-save="save" />
+            <AddFormCurriculum :form-title="formTitle" :data-form="editedItem" :modal-close="close"
+              :modal-save="save" />
           </v-dialog>
           <!-- Dialog Add/Edit -->
           <!-- Dialog delete -->
           <v-dialog v-model="dialogDelete" max-width="600px" persistent>
-            <ModalDelete form-title="Eliminar docente" type-delete="a" :data-form="editedItem"
+            <ModalDelete form-title="Eliminar asignatura" type-delete="la asignatura" :data-form="editedItem"
               :modal-close="closeDelete" :modal-save="deleteItemConfirm" />
           </v-dialog>
           <!-- Dialog delete -->
@@ -65,52 +74,62 @@
         </v-empty-state>
       </template>
     </v-data-table>
+    <!-- Alert -->
     <v-snackbar v-model="showSnackbar" :timeout="4000" :color="color" rounded="pill" location="bottom right">
       {{ message }}
     </v-snackbar>
+    <!-- End Alert -->
   </v-row>
 </template>
 <script lang="ts" setup>
 import { ref, type DeepReadonly, onMounted, computed } from 'vue'
 // Components
-import AddFormTeacher from '@/components/forms/AddFormTeacher.vue'
+import AddFormCurriculum from '@/components/forms/AddFormCurriculum.vue'
 import ModalDelete from '@/components/forms/DeleteData.vue'
 import ButtonExportExcel from '@/components/buttons/ButtonExportExcel.vue'
 import ButtonImportExcel from '@/components/buttons/ButtonImportExcel.vue'
 //Stores
-import { useTeacherStore } from '@/stores'
+import { useCurriculumsStore } from '@/stores'
 // Interface
-import type { DataTableHeader, TeachersData } from '@/interface'
+import type { DataTableHeader, CurriculumData } from '@/interface'
 // utils
 import { exportData } from '@/utils'
 // Props
 const props = defineProps({
   headers: Array as () => DeepReadonly<DataTableHeader[] | DataTableHeader[][]>,
-  items: Array<TeachersData>
+  items: Array<CurriculumData>
 })
 // Const
 const dialog = ref<boolean>(false)
 const dialogDelete = ref<boolean>(false)
-const tableTeacher = ref<HTMLElement | null>(null)
+const tableCurriculum = ref<HTMLElement | null>(null)
 const search = ref<string>('')
-const data = ref<TeachersData[]>([])
+const data = ref<CurriculumData[]>([])
 const editedIndex = ref<number>(-1)
-const editedItem = ref<TeachersData>({
-  cc: 0,
-  email: '',
-  name: '',
-  phone: 0,
-  status: false
+const editedItem = ref<CurriculumData>({
+  subject: '',
+  program: '',
+  level: 0,
+  working_day: '',
+  teacher: '',
+  time_start: '',
+  time_end: '',
+  classroom: '',
+  schedule: ''
 })
-const defaultItem = ref<TeachersData>({
-  cc: 0,
-  email: '',
-  name: '',
-  phone: 0,
-  status: false
+const defaultItem = ref<CurriculumData>({
+  subject: '',
+  program: '',
+  level: 0,
+  working_day: '',
+  teacher: '',
+  time_start: '',
+  time_end: '',
+  classroom: '',
+  schedule: ''
 })
 // Initialization Store
-const teacher = useTeacherStore()
+const curriculum = useCurriculumsStore()
 // Alerts
 const showSnackbar = ref<boolean>(false)
 const color = ref<string>('')
@@ -118,7 +137,7 @@ const message = ref<string>('')
 // Methods / Actions
 const initialize = async () => {
   try {
-    await Promise.all([teacher.allTeachers()])
+    await Promise.all([curriculum.allCurriculums()])
   } catch (error: any) {
     showSnackbar.value = true
     message.value = `¡Ha ocurrido un error: ${error.message}!`
@@ -139,39 +158,45 @@ const handleExportClick = () => {
     worksheetName: Nombre de la hoja de la calculo
     nameSheet: Nombre del archivo a exportar 
   */
-  exportData(props, tableTeacher, 'Docentes', 'Información_Docentes')
+  exportData(props, tableCurriculum, 'Malla curricular', 'Malla_Curricular')
 }
 
 const formTitle = computed(() => {
-  return !editedItem.value.id ? 'Nuevo Docente' : 'Editar Docente'
+  return !editedItem.value.id ? 'Nueva Asignatura' : 'Editar Asignatura'
 })
 
-const editItem = (item: TeachersData) => {
+const editItem = (item: CurriculumData) => {
   editedIndex.value = data.value.indexOf(item)
-  editedItem.value = Object.assign(
-    {},
-    {
-      cc: item.cc,
-      email: item.email,
-      id: item.id,
-      name: item.name,
-      phone: item.phone,
-      status: item.status
-    }
-  )
+  editedItem.value = {
+    id: item.id,
+    subject: item.subject,
+    program: item.program,
+    level: item.level,
+    working_day: item.working_day,
+    teacher: item.teacher,
+    time_start: item.time_start,
+    time_end: item.time_end,
+    classroom: item.classroom,
+    schedule: item.schedule,
+    status: item.status
+  }
   dialog.value = true
 }
-
 const close = () => {
   dialog.value = false
   editedItem.value = Object.assign({}, defaultItem.value)
   editedIndex.value = -1
 }
 
-const deleteItem = (item: TeachersData) => {
+const deleteItem = (item: CurriculumData) => {
   editedIndex.value = props.items!.indexOf(item)
   editedItem.value = Object.assign({}, item)
   dialogDelete.value = true
+}
+
+const deleteItemConfirm = async () => {
+  await curriculum.deleteCurriculum(editedItem.value.id!)
+  closeDelete()
 }
 
 const closeDelete = () => {
@@ -180,26 +205,19 @@ const closeDelete = () => {
   editedIndex.value = -1
 }
 
-const deleteItemConfirm = async () => {
-  await teacher.deleteTeacher(editedItem.value.id!)
-  closeDelete()
-}
-
 const save = async () => {
   try {
-    let { id, cc, phone, ...res } = editedItem.value
-    cc = +cc
-    phone = +phone
+    let { id, ...res } = editedItem.value
     if (!id) {
-      await teacher.addTeacher({ cc, phone, ...res })
+      await curriculum.addCurriculum(res)
       showSnackbar.value = true
-      message.value = `¡Nuevo Docente ${res.name} fue agregado con exito!`
+      message.value = `¡Nueva asignatura ${editedItem.value.subject} agregada con exito!`
       color.value = 'tradewind600'
       close()
     } else {
-      await teacher.updateTeacher(id, { cc, phone, ...res })
+      await curriculum.updateCurriculum(id, res)
       showSnackbar.value = true
-      message.value = `¡La información del docente ${res.name} fue actualizada con exito!`
+      message.value = `¡La asignatura ${res.subject} fue actualizada con exito!`
       color.value = 'tradewind600'
       close()
     }
@@ -210,14 +228,17 @@ const save = async () => {
   }
 }
 
-const updateStatus = async (item: TeachersData) => {
+const updateStatus = async (item: CurriculumData) => {
   try {
     let { id, ...res } = item
-    await teacher.updateTeacher(id!, res)
+    console.log(id);
+    await curriculum.updateCurriculum(id!, res)
   } catch (error: any) {
     showSnackbar.value = true
     message.value = `¡Ha ocurrido un error: ${error.message}!`
     color.value = 'red-darken-3'
   }
 }
+
+
 </script>

@@ -1,5 +1,6 @@
 import {
   buildClassrommAlertMessage,
+  buildCurriculumAlertMessage,
   buildImplementAlertMessage,
   buildTeacherAlertMessage,
   handleDuplicate
@@ -48,6 +49,14 @@ export const validateAndIterateRows = async (
       buildClassrommAlertMessage
     )
     if (isDuplicateClassroom) continue
+    // CheckDuplicateCurriculum
+    const isDuplicateCurriculum = await handleDuplicate(
+      checkDuplicate,
+      rowData,
+      i,
+      buildCurriculumAlertMessage
+    )
+    if (isDuplicateCurriculum) continue
     // Verificamos si la fila contiene al menos un valor no nulo o vacío
     if (Object.values(rowData).some((value) => value !== null && value !== '')) {
       validRows.push(rowData)

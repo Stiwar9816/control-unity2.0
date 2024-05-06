@@ -1,13 +1,7 @@
 <template>
   <div>
-    <v-btn
-      prepend-icon="mdi-database-arrow-up-outline"
-      variant="flat"
-      rounded="md"
-      color="tradewind500"
-      class="mx-2"
-      @click="openFileInput"
-    >
+    <v-btn prepend-icon="mdi-database-arrow-up-outline" variant="flat" rounded="md" color="tradewind500" class="mx-2"
+      @click="openFileInput">
       <template v-slot:prepend>
         <v-icon color="white" />
       </template>
@@ -16,13 +10,8 @@
     </v-btn>
     <div v-if="loading">
       <!-- Mostrar el loader mientras se carga el archivo -->
-      <v-progress-circular
-        color="tradewind300"
-        indeterminate
-        style="display: block"
-        class="my-1 mx-2"
-        size="small"
-      ></v-progress-circular>
+      <v-progress-circular color="tradewind300" indeterminate style="display: block" class="my-1 mx-2"
+        size="small"></v-progress-circular>
     </div>
 
     <div v-else-if="file && !importCompleted">
@@ -32,22 +21,10 @@
       </v-chip>
     </div>
 
-    <v-file-input
-      ref="fileInputRef"
-      v-model="file"
-      accept=".xls, .xlsx"
-      show-size
-      @change="handleFileChange"
-      style="display: none"
-    />
+    <v-file-input ref="fileInputRef" v-model="file" accept=".xls, .xlsx" show-size @change="handleFileChange"
+      style="display: none" />
 
-    <v-snackbar
-      v-model="showSnackbar"
-      :timeout="4000"
-      :color="color"
-      rounded="pill"
-      location="bottom right"
-    >
+    <v-snackbar v-model="showSnackbar" :timeout="4000" :color="color" rounded="pill" location="bottom right">
       {{ message }}
     </v-snackbar>
   </div>
@@ -58,17 +35,19 @@ import { computed, ref } from 'vue'
 // xlsx
 import * as XLSX from 'xlsx'
 // Types
-import type { TeacherRow, ClassroomRow, ImplementRow } from '@/types'
+import type { TeacherRow, ClassroomRow, ImplementRow, CurriculumRow } from '@/types'
 //Utils
 import {
   checkForDuplicateImplement,
   checkForDuplicateRoom,
   checkForDuplicateTeacher,
+  checkForDuplicateCurriculum,
   determineRoute,
   formatBytes,
   handleClassroomData,
   handleImplementData,
   handleTeacherData,
+  handleCurriculumData,
   validateAndIterateRows
 } from '@/utils'
 // Const
@@ -78,6 +57,7 @@ const loading = ref<Boolean>(false)
 const importCompleted = ref<Boolean>(false)
 const existingTeacherNames = ref<string[]>([])
 const existingRoomNames = ref<string[]>([])
+const existinsCurriculumNames = ref<string[]>([])
 const existingImplementNames = ref<string[]>([])
 // Alerts
 const showSnackbar = ref<boolean>(false)
@@ -131,7 +111,7 @@ const handleFileChange = async () => {
           )
           break
         case 'implement':
-          validateAndIterateRows(
+          await validateAndIterateRows(
             data,
             (rowData: ImplementRow) =>
               handleImplementData(
@@ -146,12 +126,21 @@ const handleFileChange = async () => {
           )
           break
         case 'classroom':
-          validateAndIterateRows(
+          await validateAndIterateRows(
             data,
             (rowData: ClassroomRow) =>
               handleClassroomData(rowData, showSnackbar, message, color, existingRoomNames.value),
             true,
             checkForDuplicateRoom
+          )
+          break
+        case 'curriculum':
+          await validateAndIterateRows(
+            data,
+            (rowData: CurriculumRow) =>
+              handleCurriculumData(rowData, showSnackbar, message, color, existinsCurriculumNames.value),
+            true,
+            checkForDuplicateCurriculum
           )
           break
         // Agrega más casos según tus necesidades

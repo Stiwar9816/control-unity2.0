@@ -25,7 +25,6 @@
     "generate-pwa-assets": "pwa-assets-generator --preset minimal public/images/LOGO_PRINCIPAL_CU.svg"
   },
   "dependencies": {
-    "@date-io/moment": "^3.0.0",
     "@supabase/supabase-js": "^2.38.3",
     "file-saver": "^2.0.5",
     "pinia": "^2.1.7",

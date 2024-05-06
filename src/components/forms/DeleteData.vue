@@ -10,15 +10,15 @@
         ¿Estás seguro de que quieres eliminar {{ props.typeDelete }}
         <b>
           {{
-            props.dataForm!.name !== undefined ? props.dataForm!.name : props.dataForm!.nomenclature
+            props.dataForm!.name !== undefined ? props.dataForm!.name : props.dataForm!.nomenclature ||
+              props.dataForm!.subject
           }}
         </b>
         ?
       </v-card-text>
       <v-card-actions>
         <v-spacer />
-        <v-btn class="rounded-md" color="tradewind50" variant="flat" @click="props.modalClose"
-          >Cancelar
+        <v-btn class="rounded-md" color="tradewind50" variant="flat" @click="props.modalClose">Cancelar
         </v-btn>
         <v-btn class="rounded-md" color="tradewind500" variant="flat" @click="props.modalSave">
           Eliminar
@@ -42,7 +42,8 @@ const props = defineProps({
     type: Object,
     default: {
       name: String,
-      nomenclature: String
+      nomenclature: String,
+      subject: String
     }
   },
   modalClose: {

@@ -1,9 +1,12 @@
 export type {
   ClassroomsData,
   ClassroomsTable,
+  CurriculumData,
+  CurriculumTable,
   DataTableCompareFunction,
   DataTableHeader,
   Field,
+  header,
   ImplementsData,
   ImplementsTable,
   SelectItemKey,

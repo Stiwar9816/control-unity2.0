@@ -10,6 +10,8 @@ export const determineRoute = (workbook: XLSX.WorkBook): string => {
     return 'implement'
   } else if (sheetName.toLowerCase().includes('salones')) {
     return 'classroom'
+  } else if (sheetName.toLowerCase().includes('malla curricular')) {
+    return 'curriculum'
   } else {
     return 'default' // Otra ruta por defecto si no coincide con ninguna
   }

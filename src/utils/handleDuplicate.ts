@@ -1,5 +1,5 @@
 // Types
-import type { TeacherRow, ImplementRow, ClassroomRow } from '@/types'
+import type { TeacherRow, ImplementRow, ClassroomRow, CurriculumRow } from '@/types'
 
 // Función para validar duplicados y mostrar alertas
 export const handleDuplicate = async (
@@ -29,4 +29,8 @@ export const buildImplementAlertMessage = (index: number, duplicateImplement: Im
 export const buildClassrommAlertMessage = (index: number, duplicateRoom: ClassroomRow) => {
   const roomNomenclature = duplicateRoom.nomenclature
   return `La fila ${index + 1} está duplicada. El salón ${roomNomenclature} ya existe.`
+}
+export const buildCurriculumAlertMessage = (index: number, duplicateCurriculum: CurriculumRow) => {
+  const curriculumSubject = duplicateCurriculum.subject
+  return `La fila ${index + 1} está duplicada. La asignatura ${curriculumSubject} ya existe.`
 }
