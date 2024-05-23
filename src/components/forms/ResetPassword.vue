@@ -38,15 +38,9 @@
         </v-sheet>
       </v-col>
     </v-row>
-    <v-snackbar
-      v-model="showSnackbar"
-      :timeout="4000"
-      :color="color"
-      rounded="pill"
-      location="bottom right"
-    >
-      {{ message }}
-    </v-snackbar>
+    <!-- Alert -->
+    <SnackbarAlert v-model="showSnackbar" :message="message" :color="color" />
+    <!-- End Alert -->
   </div>
 </template>
 
@@ -54,6 +48,8 @@
 import { onBeforeUnmount, reactive, ref } from 'vue'
 // Router
 import router from '@/router'
+// Components
+import SnackbarAlert from '@/components/alerts/SnackbarAlert.vue'
 // Store
 import { useErrorsStore, useAuthStore } from '@/stores'
 // Alerts

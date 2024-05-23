@@ -108,31 +108,25 @@
       </v-row>
     </v-form>
     <!-- Alert -->
-    <v-snackbar
-      v-model="showSnackbar"
-      :timeout="4000"
-      :color="color"
-      rounded="pill"
-      location="bottom right"
-    >
-      {{ message }}
-    </v-snackbar>
+    <SnackbarAlert v-model="showSnackbar" :message="message" :color="color" />
     <!-- End Alert -->
   </v-container>
 </template>
 
 <script lang="ts" setup>
+import { computed, onMounted, ref } from 'vue'
+import router from '@/router'
+import moment from 'moment'
+// Components
 import Datetimepicker from '@/components/calendars/DatetimePicker.vue'
 import ButtonBase from '@/components/buttons/ButtonBase.vue'
-import { computed, onMounted, ref } from 'vue'
-import moment from 'moment'
+import SnackbarAlert from '@/components/alerts/SnackbarAlert.vue'
 // Utils
 import { requiredValue } from '@/utils'
 //Stores
 import { useImplementsStore, useClassroomsStore, useBookingsStore } from '@/stores'
 // Interface
 import type { BookingData, ClassroomsData, ImplementsData } from '@/interface'
-import router from '@/router'
 // Props
 const props = defineProps({
   dataFormBooking: {

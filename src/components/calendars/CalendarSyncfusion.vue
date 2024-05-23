@@ -1,35 +1,43 @@
 <template>
-  <ejs-schedule height="550px" currentView="Month" :eventSettings="appointmentData" />
+  <ejs-schedule height="500px" currentView="Month" :eventSettings="appointmentData" />
 </template>
 
-<script>
-import { ScheduleComponent, Day, Week, WorkWeek, Month, Agenda } from '@syncfusion/ej2-vue-schedule'
+<script setup lang="ts">
+import { ref, provide } from 'vue'
+import {
+  ScheduleComponent as EjsSchedule,
+  ViewsDirective as EViews,
+  ViewDirective as EView,
+  ResourcesDirective as EResources,
+  ResourceDirective as EResource,
+  Day,
+  Week,
+  WorkWeek,
+  Month,
+  Agenda
+} from '@syncfusion/ej2-vue-schedule'
 import { DataManager, WebApiAdaptor } from '@syncfusion/ej2-data'
+import { loadCldr, setCulture } from '@syncfusion/ej2-base'
+import * as numberingSystems from 'cldr-data/supplemental/numberingSystems.json'
+import * as gregorian from 'cldr-data/main/es-CO/ca-gregorian.json'
+import * as numbers from 'cldr-data/main/es-CO/numbers.json'
+import * as timeZoneNames from 'cldr-data/main/es-CO/timeZoneNames.json'
 
-var remoteData = new DataManager({
+loadCldr(numberingSystems, gregorian, numbers, timeZoneNames)
+setCulture('es-CO')
+provide('schedule', [Day, Week, WorkWeek, Month, Agenda])
+
+const remoteData = new DataManager({
   url: 'https://ej2services.syncfusion.com/production/web-services/api/Schedule',
   adaptor: new WebApiAdaptor(),
   crossDomain: true
 })
 
-export default {
-  name: 'App',
-  components: {
-    'ejs-schedule': ScheduleComponent
-  },
-  provide: {
-    schedule: [Day, Week, WorkWeek, Month, Agenda]
-  },
-  data() {
-    return {
-      appointmentData: {
-        timezone: 'America/Bogota',
-        enableTooltip: true,
-        dataSource: remoteData
-      }
-    }
-  }
-}
+const appointmentData = ref({
+  timezone: 'America/Bogota',
+  enableTooltip: true,
+  dataSource: remoteData
+})
 </script>
 
 <style lang="css">

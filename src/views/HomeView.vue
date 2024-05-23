@@ -1,9 +1,7 @@
 <template>
-  <h1>Home</h1>
-  <!-- <CalendarHome /> -->
-  <CalendarSyncfusion />
+  <h1>Inicio</h1>
+    <CalendarSyncfusion />
 </template>
 <script lang="ts" setup>
-// import CalendarHome from '@/components/calendars/CalendarHome.vue'
 import CalendarSyncfusion from '@/components/calendars/CalendarSyncfusion.vue'
 </script>

@@ -58,20 +58,16 @@
         </v-sheet>
       </v-col>
     </v-row>
-    <v-snackbar
-      v-model="showSnackbar"
-      :timeout="4000"
-      :color="color"
-      rounded="pill"
-      location="bottom right"
-    >
-      {{ message }}
-    </v-snackbar>
+    <!-- Alert -->
+    <SnackbarAlert v-model="showSnackbar" :message="message" :color="color" />
+    <!-- End Alert -->
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
+// Components
+import SnackbarAlert from '@/components/alerts/SnackbarAlert.vue'
 // Router
 import router from '@/router'
 // Store

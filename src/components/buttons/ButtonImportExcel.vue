@@ -1,7 +1,13 @@
 <template>
   <div>
-    <v-btn prepend-icon="mdi-database-arrow-up-outline" variant="flat" rounded="md" color="tradewind500" class="mx-2"
-      @click="openFileInput">
+    <v-btn
+      prepend-icon="mdi-database-arrow-up-outline"
+      variant="flat"
+      rounded="md"
+      color="tradewind500"
+      class="mx-2"
+      @click="openFileInput"
+    >
       <template v-slot:prepend>
         <v-icon color="white" />
       </template>
@@ -9,22 +15,35 @@
       {{ props.labelButton }}
       <div v-if="loading">
         <!-- Mostrar el loader mientras se carga el archivo -->
-        <v-progress-circular color="tradewind300" indeterminate style="display: block" class="my-1 mx-2"
-          size="small"></v-progress-circular>
+        <v-progress-circular
+          color="tradewind300"
+          indeterminate
+          style="display: block"
+          class="my-1 mx-2"
+          size="small"
+        ></v-progress-circular>
       </div>
     </v-btn>
 
-    <v-file-input ref="fileInputRef" v-model="file" accept=".xls, .xlsx" show-size @change="handleFileChange"
-      style="display: none" />
+    <v-file-input
+      ref="fileInputRef"
+      v-model="file"
+      accept=".xls, .xlsx"
+      show-size
+      @change="handleFileChange"
+      style="display: none"
+    />
 
-    <v-snackbar v-model="showSnackbar" :timeout="4000" :color="color" rounded="pill" location="bottom right">
-      {{ message }}
-    </v-snackbar>
+    <!-- Alert -->
+    <SnackbarAlert v-model="showSnackbar" :message="message" :color="color" />
+    <!-- End Alert -->
   </div>
 </template>
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+// Components
+import SnackbarAlert from '@/components/alerts/SnackbarAlert.vue'
 // xlsx
 import * as XLSX from 'xlsx'
 // Types
@@ -37,7 +56,7 @@ import {
   handleImplementData,
   handleTeacherData,
   handleCurriculumData,
-  validateAndIterateRows,
+  validateAndIterateRows
 } from '@/utils'
 // Const
 const file = ref<File | any>(null)
@@ -105,7 +124,13 @@ const handleFileChange = async () => {
             await validateAndIterateRows(
               data,
               (rowData: TeacherRow) =>
-                handleTeacherData(rowData, showSnackbar, message, color, existingTeacherNames.value),
+                handleTeacherData(
+                  rowData,
+                  showSnackbar,
+                  message,
+                  color,
+                  existingTeacherNames.value
+                ),
               true
             )
             break
@@ -135,7 +160,13 @@ const handleFileChange = async () => {
             await validateAndIterateRows(
               data,
               (rowData: CurriculumRow) =>
-                handleCurriculumData(rowData, showSnackbar, message, color, existinsCurriculumNames.value),
+                handleCurriculumData(
+                  rowData,
+                  showSnackbar,
+                  message,
+                  color,
+                  existinsCurriculumNames.value
+                ),
               true
             )
             break
@@ -145,7 +176,9 @@ const handleFileChange = async () => {
             throw new Error('El archivo contiene un esquema invalido')
         }
       } else {
-        throw new Error(`La ruta actual (${currentPath}) no coincide con la ruta esperada para cargar los datos de ${route}.`)
+        throw new Error(
+          `La ruta actual (${currentPath}) no coincide con la ruta esperada para cargar los datos de ${route}.`
+        )
       }
     }
   } catch (error: any) {

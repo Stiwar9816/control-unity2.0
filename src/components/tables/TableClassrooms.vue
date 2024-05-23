@@ -101,15 +101,9 @@
         </v-empty-state>
       </template>
     </v-data-table>
-    <v-snackbar
-      v-model="showSnackbar"
-      :timeout="4000"
-      :color="color"
-      rounded="pill"
-      location="bottom right"
-    >
-      {{ message }}
-    </v-snackbar>
+    <!-- Alert -->
+    <SnackbarAlert v-model="showSnackbar" :message="message" :color="color" />
+    <!-- End Alert -->
   </v-row>
 </template>
 <script lang="ts" setup>
@@ -120,6 +114,7 @@ import ModalDelete from '@/components/forms/DeleteData.vue'
 import ButtonExportExcel from '@/components/buttons/ButtonExportExcel.vue'
 import ButtonImportExcel from '@/components/buttons/ButtonImportExcel.vue'
 import InputSearch from '@/components/inputs/InputSearch.vue'
+import SnackbarAlert from '@/components/alerts/SnackbarAlert.vue'
 // Stores
 import { useClassroomsStore } from '@/stores'
 // Interface
