@@ -86,7 +86,18 @@ export interface UserData {
   role?: string
   status?: boolean
 }
-
+export interface BookingData {
+  id?: string
+  document: number
+  fullname: string
+  phone: number
+  schedule: string
+  implements: string[] | string
+  event: string
+  room: string
+  start_date: Date
+  end_date: Date
+}
 // DataTable Vuetify
 export type SelectItemKey =
   | boolean

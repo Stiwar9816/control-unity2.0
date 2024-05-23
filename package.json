@@ -26,9 +26,20 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.38.3",
+    "@syncfusion/ej2-buttons": "^25.1.39",
+    "@syncfusion/ej2-calendars": "^25.1.42",
+    "@syncfusion/ej2-data": "^25.1.35",
+    "@syncfusion/ej2-dropdowns": "^25.1.41",
+    "@syncfusion/ej2-inputs": "^25.1.42",
+    "@syncfusion/ej2-lists": "^25.2.3",
+    "@syncfusion/ej2-navigations": "^25.1.42",
+    "@syncfusion/ej2-popups": "^25.1.42",
+    "@syncfusion/ej2-vue-calendars": "^25.2.5",
+    "@syncfusion/ej2-vue-schedule": "^25.1.42",
     "file-saver": "^2.0.5",
     "pinia": "^2.1.7",
     "vue": "^3.3.4",
+    "vue-class-component": "8.0.0-rc.1",
     "vue-router": "^4.2.5",
     "vuetify": "^3.3.23",
     "xlsx": "^0.18.5"
@@ -36,6 +47,7 @@
   "devDependencies": {
     "@mdi/font": "^7.3.67",
     "@playwright/test": "^1.40.1",
+    "@syncfusion/ej2-base": "^25.1.35",
     "@tsconfig/node18": "^18.2.2",
     "@types/file-saver": "^2.0.6",
     "@types/jsdom": "^21.1.3",

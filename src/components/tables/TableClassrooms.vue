@@ -1,18 +1,8 @@
 <template>
   <v-row no-gutters>
-    <v-col cols="12">
+    <v-col cols="12" md="4">
       <!-- Input Search -->
-      <v-text-field
-        class="mt-4"
-        clearable
-        color="tradewind400"
-        density="comfortable"
-        label="Buscar salón"
-        prepend-inner-icon="mdi-magnify"
-        type="text"
-        v-model="search"
-        variant="underlined"
-      ></v-text-field>
+      <InputSearch label="Buscar salón" v-model="search" />
       <!-- End Input Search -->
       <div class="d-flex">
         <!-- Button Export -->
@@ -86,10 +76,18 @@
       <!-- End Status -->
       <!-- Actions -->
       <template v-slot:item.actions="{ item }">
-        <v-icon size="small" class="me-2" @click="editItem(item)" color="tradewind500" aria-label="button edit">
+        <v-icon
+          size="small"
+          class="me-2"
+          @click="editItem(item)"
+          color="tradewind500"
+          aria-label="button edit"
+        >
           mdi-pencil
         </v-icon>
-        <v-icon size="small" color="error" @click="deleteItem(item)" aria-label="button delete"> mdi-delete </v-icon>
+        <v-icon size="small" color="error" @click="deleteItem(item)" aria-label="button delete">
+          mdi-delete
+        </v-icon>
       </template>
       <!-- End Actions -->
       <template v-slot:no-data>
@@ -121,6 +119,7 @@ import AddFormClassroom from '@/components/forms/AddFormClassroom.vue'
 import ModalDelete from '@/components/forms/DeleteData.vue'
 import ButtonExportExcel from '@/components/buttons/ButtonExportExcel.vue'
 import ButtonImportExcel from '@/components/buttons/ButtonImportExcel.vue'
+import InputSearch from '@/components/inputs/InputSearch.vue'
 // Stores
 import { useClassroomsStore } from '@/stores'
 // Interface

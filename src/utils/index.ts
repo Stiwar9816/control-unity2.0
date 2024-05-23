@@ -1,3 +1,5 @@
+export { handleData } from './handleData'
+export { checkForDuplicate } from './checkForDuplicate'
 export {
   buildClassrommAlertMessage,
   buildImplementAlertMessage,

@@ -4,6 +4,6 @@ export type TeacherRow = {
   'Nombre Completo':string
   'Correo electronico':string
   'Teléfono':number
-  'Estado':boolean | undefined
+  'Estado': boolean
   // Agrega más campos según sea necesario
 }

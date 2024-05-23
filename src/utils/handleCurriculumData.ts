@@ -1,15 +1,16 @@
+import type { Ref } from 'vue'
 // Store
 import { useCurriculumsStore } from '@/stores'
 // Utils
-import { checkForDuplicateCurriculum } from '.'
+import { handleData } from '.'
 // Types
 import type { CurriculumRow } from '@/types'
 
 export const handleCurriculumData = async (
   rowData: CurriculumRow,
-  showSnackbar: any,
-  message: any,
-  color: any,
+  showSnackbar: Ref<boolean>,
+  message: Ref<string>,
+  color: Ref<string>,
   existingCurriculumNames: string[]
 ) => {
   try {
@@ -18,13 +19,19 @@ export const handleCurriculumData = async (
     // Obtener el UUID del responsable
     const curriculumTeacher = rowData['Docente']
     const curriculumClassroom = rowData['Salón']
-    const teacherUUID = await curriculum.getTeacherUuid(curriculumTeacher)
-    const classroomUUID = await curriculum.getClassroomUuid(curriculumClassroom)
-    // Verificar si la asignatura ya existe
-    const existingCurriculum = await checkForDuplicateCurriculum(rowData)
-    console.log(existingCurriculum);
-    if (!existingCurriculum) {
-      const curriculumData = {
+    const teacherUUID = await curriculum.getTeacherUUID(curriculumTeacher)
+    const classroomUUID = await curriculum.getClassroomUUID(curriculumClassroom)
+
+    await handleData(
+      rowData,
+      showSnackbar,
+      message,
+      color,
+      existingCurriculumNames,
+      curriculum,
+      'getCurriculumBySubject',
+      'Asignatura',
+      (rowData: CurriculumRow) => ({
         subject: rowData['Asignatura'],
         program: rowData['Programa'],
         level: rowData['Nivel'],
@@ -35,21 +42,11 @@ export const handleCurriculumData = async (
         time_end: rowData['Hora de fin'],
         classroom: classroomUUID,
         status: rowData['Estado']
-      }
-      // Agregar datos de los implementos
-      console.log(curriculumData);
-      await curriculum.addCurriculum(curriculumData)
-      showSnackbar.value = true
-      message.value = `Asignatura(s) agregada(s): ${curriculumData.subject}`
-      color.value = 'tradewind600'
-    } else {
-      if (existingCurriculum.name) {
-        existingCurriculumNames.push(existingCurriculum.name) // Agrega el nombre al array
-        showSnackbar.value = true
-        message.value = `Asignatura(s) ya existe(n): ${existingCurriculumNames.join(', ')}` // Une los nombres
-        color.value = 'red-darken-4'
-      }
-    }
+      }),
+      'addCurriculum',
+      'subject', // Nombre del valor que se usará para el mensaje
+      'Asignatura(s)' // Mensaje en caso de existencia
+    )
   } catch (error: any) {
     throw new Error(`'Error al agregar las asignaturas:', ${error.message}`)
   }

@@ -5,6 +5,10 @@ import router from './router'
 import { registerLayouts } from './layouts/register'
 import { vuetify } from './plugins/vuetify'
 import { registerSW } from 'virtual:pwa-register'
+import { registerLicense } from '@syncfusion/ej2-base'
+
+registerLicense(`${import.meta.env.VITE_SYNCFUSION_REGISTER_LICENSE}`)
+
 
 const intervalMS = 60 * 60 * 1000
 const updateSW = registerSW({

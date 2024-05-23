@@ -2,9 +2,7 @@
   <v-row no-gutters>
     <v-col cols="12" md="4">
       <!-- Input Search -->
-      <v-text-field class="mt-4" clearable color="tradewind400" density="comfortable" label="Buscar asignatura"
-        aria-label="search implement" prepend-inner-icon="mdi-magnify" type="text" v-model="search"
-        variant="underlined"></v-text-field>
+      <InputSearch label="Buscar asignatura" v-model="search" />
       <!-- End Input Search -->
       <div class="d-flex">
         <!-- Button Export -->
@@ -16,8 +14,14 @@
       </div>
     </v-col>
 
-    <v-data-table :headers="props.headers" :items="props.items" :search="search" :items-per-page="10"
-      :sort-by="[{ key: 'status', order: 'desc' }]" ref="tableCurriculum">
+    <v-data-table
+      :headers="props.headers"
+      :items="props.items"
+      :search="search"
+      :items-per-page="10"
+      :sort-by="[{ key: 'status', order: 'desc' }]"
+      ref="tableCurriculum"
+    >
       <template v-slot:top>
         <v-toolbar class="rounded-lg" color="tradewind50" density="comfortable" flat>
           <v-spacer />
@@ -35,27 +39,49 @@
                 Nuevo asignatura
               </v-btn>
             </template>
-            <AddFormCurriculum :form-title="formTitle" :data-form="editedItem" :modal-close="close"
-              :modal-save="save" />
+            <AddFormCurriculum
+              :form-title="formTitle"
+              :data-form="editedItem"
+              :modal-close="close"
+              :modal-save="save"
+            />
           </v-dialog>
           <!-- Dialog Add/Edit -->
           <!-- Dialog delete -->
           <v-dialog v-model="dialogDelete" max-width="600px" persistent>
-            <ModalDelete form-title="Eliminar asignatura" type-delete="la asignatura" :data-form="editedItem"
-              :modal-close="closeDelete" :modal-save="deleteItemConfirm" />
+            <ModalDelete
+              form-title="Eliminar asignatura"
+              type-delete="la asignatura"
+              :data-form="editedItem"
+              :modal-close="closeDelete"
+              :modal-save="deleteItemConfirm"
+            />
           </v-dialog>
           <!-- Dialog delete -->
         </v-toolbar>
       </template>
       <!-- Status -->
       <template v-slot:item.status="{ item }">
-        <v-switch v-if="item.status !== undefined" v-model="item.status" hide-details true-icon="mdi-check-circle"
-          false-icon="mdi-close-circle" color="tradewind500" @change="updateStatus(item)"></v-switch>
+        <v-switch
+          v-if="item.status !== undefined"
+          v-model="item.status"
+          hide-details
+          true-icon="mdi-check-circle"
+          false-icon="mdi-close-circle"
+          color="tradewind500"
+          @change="updateStatus(item)"
+        ></v-switch>
       </template>
       <!-- End Status -->
       <!-- Actions -->
       <template v-slot:item.actions="{ item }">
-        <v-icon size="small" class="me-2" @click="editItem(item)" color="tradewind500" aria-label="button edit">
+        <v-icon
+          size="small"
+          class="me-2"
+          @click="editItem(item)"
+          color="tradewind500"
+          aria-label="button edit"
+        >
           mdi-pencil
         </v-icon>
         <v-icon size="small" color="error" @click="deleteItem(item)" aria-label="button delete">
@@ -75,7 +101,13 @@
       </template>
     </v-data-table>
     <!-- Alert -->
-    <v-snackbar v-model="showSnackbar" :timeout="4000" :color="color" rounded="pill" location="bottom right">
+    <v-snackbar
+      v-model="showSnackbar"
+      :timeout="4000"
+      :color="color"
+      rounded="pill"
+      location="bottom right"
+    >
       {{ message }}
     </v-snackbar>
     <!-- End Alert -->
@@ -88,6 +120,7 @@ import AddFormCurriculum from '@/components/forms/AddFormCurriculum.vue'
 import ModalDelete from '@/components/forms/DeleteData.vue'
 import ButtonExportExcel from '@/components/buttons/ButtonExportExcel.vue'
 import ButtonImportExcel from '@/components/buttons/ButtonImportExcel.vue'
+import InputSearch from '@/components/inputs/InputSearch.vue'
 //Stores
 import { useCurriculumsStore } from '@/stores'
 // Interface
@@ -231,7 +264,7 @@ const save = async () => {
 const updateStatus = async (item: CurriculumData) => {
   try {
     let { id, ...res } = item
-    console.log(id);
+    console.log(id)
     await curriculum.updateCurriculum(id!, res)
   } catch (error: any) {
     showSnackbar.value = true
@@ -239,6 +272,4 @@ const updateStatus = async (item: CurriculumData) => {
     color.value = 'red-darken-3'
   }
 }
-
-
 </script>

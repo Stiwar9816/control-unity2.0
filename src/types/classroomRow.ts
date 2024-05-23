@@ -4,6 +4,6 @@ export type ClassroomRow = {
     'Recursos tecnológicos': string
     'Conectividad': string
     'Capacidad': number
-    'Estado': boolean | undefined
+    'Estado': boolean
     nomenclature: string
 }

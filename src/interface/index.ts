@@ -13,6 +13,7 @@ export type {
   TeachersData,
   TeachersTable,
   UserData,
+  BookingData,
   UsersTable
 } from './table'
 export type { SigninInput, AuthState } from './auth'

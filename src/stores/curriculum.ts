@@ -54,23 +54,23 @@ export const useCurriculumsStore = defineStore({
       if (error) throw new Error(`${error.message}`)
       return (this.items = curriculum as CurriculumData[])
     },
-    async getTeacherUuid(name_teacher: string) {
-      let { data: curriculum, error } = await supabase.rpc('get_teacher_uuid', {
-        name_teacher
+    async getTeacherUUID(teacher_name: string) {
+      let { data: curriculum, error } = await supabase.rpc('get_teacher_name', {
+        teacher_name
       })
       if (error) throw new Error(`${error.message}`)
       return curriculum
     },
-    async getClassroomUuid(name_classroom: string) {
+    async getClassroomUUID(name_classroom: string) {
       let { data: curriculum, error } = await supabase.rpc('get_classroom_uuid', {
         name_classroom
       })
       if (error) throw new Error(`${error.message}`)
       return curriculum
     },
-    async getCurriculumBySubject(subject: string) {
+    async getCurriculumBySubject(name_subject: string) {
       let { data: curriculum, error } = await supabase.rpc('get_curriculum_by_subject', {
-        subject
+        name_subject
       })
       if (error) throw new Error(`${error.message}`)
       return curriculum

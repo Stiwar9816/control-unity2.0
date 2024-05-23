@@ -7,6 +7,6 @@ export type ImplementRow ={
     'Ubicación': string
     'Responsable': string
     'Nota': string
-    'Estado': boolean | undefined
+    'Estado': boolean
     name: string
 }

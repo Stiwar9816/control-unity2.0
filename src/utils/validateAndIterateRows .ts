@@ -3,14 +3,25 @@ import {
   buildCurriculumAlertMessage,
   buildImplementAlertMessage,
   buildTeacherAlertMessage,
+  checkForDuplicate,
   handleDuplicate
 } from '.'
+
+// Types
+import type { ClassroomRow, CurriculumRow, ImplementRow, TeacherRow } from '@/types'
+
+// Stores
+import {
+  useTeacherStore,
+  useClassroomsStore,
+  useCurriculumsStore,
+  useImplementsStore
+} from '@/stores'
 
 export const validateAndIterateRows = async (
   data: any,
   callback: any,
-  checkDuplicate: boolean = true,
-  checkForDuplicate: Function
+  checkDuplicate: boolean = true
 ) => {
   if (data.length < 1) {
     throw new Error('El archivo no contiene suficientes datos para la importación.')
@@ -18,6 +29,12 @@ export const validateAndIterateRows = async (
   const headers = data[0]
   // Almacena las filas válidas que no están duplicadas
   const validRows = []
+  // Initialization store
+  const teacher = useTeacherStore()
+  const room = useClassroomsStore()
+  const curriculum = useCurriculumsStore()
+  const implement = useImplementsStore()
+
   for (let i = 1; i < data.length; i++) {
     const row = data[i]
     const rowData: any = {}
@@ -27,7 +44,7 @@ export const validateAndIterateRows = async (
     // Usa la función modular handleDuplicate para verificar duplicados
     // CheckDuplicateTeacher
     const isDuplicateTeacher = await handleDuplicate(
-      checkForDuplicate,
+      async (rowData: TeacherRow) => checkForDuplicate(rowData, teacher, 'getTeacherByCc', 'C.C'),
       rowData,
       i,
       buildTeacherAlertMessage
@@ -35,7 +52,8 @@ export const validateAndIterateRows = async (
     if (isDuplicateTeacher) continue
     // CheckDuplicateImplement
     const isDuplicateImplement = await handleDuplicate(
-      checkForDuplicate,
+      async (rowData: ImplementRow) =>
+        checkForDuplicate(rowData, implement, 'getImplementBySerial', 'Serial'),
       rowData,
       i,
       buildImplementAlertMessage
@@ -43,7 +61,8 @@ export const validateAndIterateRows = async (
     if (isDuplicateImplement) continue
     // CheckDuplicateClassroom
     const isDuplicateClassroom = await handleDuplicate(
-      checkForDuplicate,
+      async (rowData: ClassroomRow) =>
+        checkForDuplicate(rowData, room, 'getClassroomByNomenclature', 'Nomenclatura'),
       rowData,
       i,
       buildClassrommAlertMessage
@@ -51,7 +70,8 @@ export const validateAndIterateRows = async (
     if (isDuplicateClassroom) continue
     // CheckDuplicateCurriculum
     const isDuplicateCurriculum = await handleDuplicate(
-      checkDuplicate,
+      async (rowData: CurriculumRow) =>
+        checkForDuplicate(rowData, curriculum, 'getCurriculumBySubject', 'Asignatura'),
       rowData,
       i,
       buildCurriculumAlertMessage

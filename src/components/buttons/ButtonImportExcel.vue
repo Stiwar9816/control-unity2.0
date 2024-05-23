@@ -7,19 +7,12 @@
       </template>
       <v-tooltip activator="parent" location="top">Importar excel</v-tooltip>
       {{ props.labelButton }}
+      <div v-if="loading">
+        <!-- Mostrar el loader mientras se carga el archivo -->
+        <v-progress-circular color="tradewind300" indeterminate style="display: block" class="my-1 mx-2"
+          size="small"></v-progress-circular>
+      </div>
     </v-btn>
-    <div v-if="loading">
-      <!-- Mostrar el loader mientras se carga el archivo -->
-      <v-progress-circular color="tradewind300" indeterminate style="display: block" class="my-1 mx-2"
-        size="small"></v-progress-circular>
-    </div>
-
-    <div v-else-if="file && !importCompleted">
-      <v-chip class="my-1 mx-2" variant="text">
-        <v-tooltip activator="parent" location="top">{{ buttonText }}</v-tooltip>
-        <v-icon icon="mdi-file-excel-outline" color="success" class="mr-2" /> {{ buttonText }}
-      </v-chip>
-    </div>
 
     <v-file-input ref="fileInputRef" v-model="file" accept=".xls, .xlsx" show-size @change="handleFileChange"
       style="display: none" />
@@ -35,20 +28,16 @@ import { computed, ref } from 'vue'
 // xlsx
 import * as XLSX from 'xlsx'
 // Types
-import type { TeacherRow, ClassroomRow, ImplementRow, CurriculumRow } from '@/types'
+import type { TeacherRow, ClassroomRow, ImplementRow, CurriculumRow, ExpectedRoute } from '@/types'
 //Utils
 import {
-  checkForDuplicateImplement,
-  checkForDuplicateRoom,
-  checkForDuplicateTeacher,
-  checkForDuplicateCurriculum,
   determineRoute,
   formatBytes,
   handleClassroomData,
   handleImplementData,
   handleTeacherData,
   handleCurriculumData,
-  validateAndIterateRows
+  validateAndIterateRows,
 } from '@/utils'
 // Const
 const file = ref<File | any>(null)
@@ -86,13 +75,22 @@ const openFileInput = () => {
   fileInputRef.value!.click()
 }
 
+const expectedRoutes: ExpectedRoute = {
+  teacher: '/teachers',
+  implement: '/implements',
+  classroom: '/classrooms',
+  curriculum: '/curriculum'
+}
+
 // Handle file change
 const handleFileChange = async () => {
   try {
     loading.value = true
     importCompleted.value = false
-    if (file.value && file.value.length > 0) {
-      const [importedFile]: File[] = file.value
+    const currentPath: string = window.location.pathname
+
+    if (file.value && [file.value].length > 0) {
+      const [importedFile]: File[] = [file.value]
       // Leyendo el archivo de excel
       const workbook = XLSX.read(await importedFile.arrayBuffer(), { type: 'array' })
       const sheet = workbook.Sheets[workbook.SheetNames[0]]
@@ -100,53 +98,54 @@ const handleFileChange = async () => {
       const data = XLSX.utils.sheet_to_json(sheet, { header: 1 })
       const route = determineRoute(workbook)
 
-      switch (route) {
-        case 'teacher':
-          await validateAndIterateRows(
-            data,
-            (rowData: TeacherRow) =>
-              handleTeacherData(rowData, showSnackbar, message, color, existingTeacherNames.value),
-            true,
-            checkForDuplicateTeacher
-          )
-          break
-        case 'implement':
-          await validateAndIterateRows(
-            data,
-            (rowData: ImplementRow) =>
-              handleImplementData(
-                rowData,
-                showSnackbar,
-                message,
-                color,
-                existingImplementNames.value
-              ),
-            true,
-            checkForDuplicateImplement
-          )
-          break
-        case 'classroom':
-          await validateAndIterateRows(
-            data,
-            (rowData: ClassroomRow) =>
-              handleClassroomData(rowData, showSnackbar, message, color, existingRoomNames.value),
-            true,
-            checkForDuplicateRoom
-          )
-          break
-        case 'curriculum':
-          await validateAndIterateRows(
-            data,
-            (rowData: CurriculumRow) =>
-              handleCurriculumData(rowData, showSnackbar, message, color, existinsCurriculumNames.value),
-            true,
-            checkForDuplicateCurriculum
-          )
-          break
-        // Agrega más casos según tus necesidades
-        default:
-          // Handle default case
-          throw new Error('El archivo contiene un esquema invalido')
+      // Verificar si la ruta actual coincide con la esperada para el tipo de archivo
+      if (currentPath === expectedRoutes[route]) {
+        switch (route) {
+          case 'teacher':
+            await validateAndIterateRows(
+              data,
+              (rowData: TeacherRow) =>
+                handleTeacherData(rowData, showSnackbar, message, color, existingTeacherNames.value),
+              true
+            )
+            break
+          case 'implement':
+            await validateAndIterateRows(
+              data,
+              (rowData: ImplementRow) =>
+                handleImplementData(
+                  rowData,
+                  showSnackbar,
+                  message,
+                  color,
+                  existingImplementNames.value
+                ),
+              true
+            )
+            break
+          case 'classroom':
+            await validateAndIterateRows(
+              data,
+              (rowData: ClassroomRow) =>
+                handleClassroomData(rowData, showSnackbar, message, color, existingRoomNames.value),
+              true
+            )
+            break
+          case 'curriculum':
+            await validateAndIterateRows(
+              data,
+              (rowData: CurriculumRow) =>
+                handleCurriculumData(rowData, showSnackbar, message, color, existinsCurriculumNames.value),
+              true
+            )
+            break
+          // Agrega más casos según tus necesidades
+          default:
+            // Handle default case
+            throw new Error('El archivo contiene un esquema invalido')
+        }
+      } else {
+        throw new Error(`La ruta actual (${currentPath}) no coincide con la ruta esperada para cargar los datos de ${route}.`)
       }
     }
   } catch (error: any) {

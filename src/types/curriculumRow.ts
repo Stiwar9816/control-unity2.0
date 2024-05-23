@@ -8,6 +8,6 @@ export type CurriculumRow = {
     'Hora de inicio': string
     'Hora de fin': string
     'Salón': string
-    'Estado': boolean | undefined
+    'Estado': boolean
     subject: string
 }
