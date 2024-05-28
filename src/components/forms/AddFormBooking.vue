@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <v-form @submit="submitForm">
+    <v-form @submit.prevent="submitForm">
       <v-row>
         <v-col cols="12" md="4">
           <v-text-field

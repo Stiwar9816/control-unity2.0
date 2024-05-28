@@ -3,52 +3,76 @@
 </template>
 
 <script setup lang="ts">
-import { ref, provide } from 'vue'
+import { ref, provide, onMounted } from 'vue'
 import {
   ScheduleComponent as EjsSchedule,
-  ViewsDirective as EViews,
-  ViewDirective as EView,
-  ResourcesDirective as EResources,
-  ResourceDirective as EResource,
   Day,
   Week,
   WorkWeek,
   Month,
   Agenda
 } from '@syncfusion/ej2-vue-schedule'
-import { DataManager, WebApiAdaptor } from '@syncfusion/ej2-data'
-import { loadCldr, setCulture } from '@syncfusion/ej2-base'
+import { L10n, loadCldr, setCulture } from '@syncfusion/ej2-base'
 import * as numberingSystems from 'cldr-data/supplemental/numberingSystems.json'
 import * as gregorian from 'cldr-data/main/es-CO/ca-gregorian.json'
 import * as numbers from 'cldr-data/main/es-CO/numbers.json'
 import * as timeZoneNames from 'cldr-data/main/es-CO/timeZoneNames.json'
+// Store
+import { useBookingsStore } from '@/stores'
 
 loadCldr(numberingSystems, gregorian, numbers, timeZoneNames)
 setCulture('es-CO')
 provide('schedule', [Day, Week, WorkWeek, Month, Agenda])
-
-const remoteData = new DataManager({
-  url: 'https://ej2services.syncfusion.com/production/web-services/api/Schedule',
-  adaptor: new WebApiAdaptor(),
-  crossDomain: true
+L10n.load({
+  'es-CO': {
+    schedule: {
+      saveButton: 'Confirmar',
+      cancelButton: 'Cerrar',
+      deleteButton: 'Eliminar',
+      newEvent: 'Nuevo evento'
+    }
+  }
 })
+
+// Initialization Store
+const booking = useBookingsStore()
 
 const appointmentData = ref({
   timezone: 'America/Bogota',
   enableTooltip: true,
-  dataSource: remoteData
+  dataSource: [] as any
+})
+
+onMounted(async () => {
+  try {
+    const bookings = await booking.getBooking()
+    appointmentData.value = {
+      timezone: 'America/Bogota',
+      enableTooltip: true,
+      dataSource: bookings.map((booking) => ({
+        Id: booking.id,
+        Subject: booking.event,
+        StartTime: booking.start_date,
+        EndTime: booking.end_date,
+        Location: booking.room,
+        Description: `Responsable: ${booking.fullname}`
+      }))
+    }
+  } catch (error: any) {
+    throw new Error(`¡Error al obtener reservas: ${error.message}!`)
+  }
 })
 </script>
 
 <style lang="css">
-@import '@syncfusion/ej2-base/styles/tailwind.css';
-@import '@syncfusion/ej2-buttons/styles/tailwind.css';
-@import '@syncfusion/ej2-calendars/styles/tailwind.css';
-@import '@syncfusion/ej2-dropdowns/styles/tailwind.css';
-@import '@syncfusion/ej2-inputs/styles/tailwind.css';
-@import '@syncfusion/ej2-navigations/styles/tailwind.css';
-@import '@syncfusion/ej2-popups/styles/tailwind.css';
-@import '@syncfusion/ej2-vue-schedule/styles/tailwind.css';
+@import '@syncfusion/ej2-base/styles/material.css';
+@import '@syncfusion/ej2-buttons/styles/material.css';
+@import '@syncfusion/ej2-calendars/styles/material.css';
+@import '@syncfusion/ej2-dropdowns/styles/material.css';
+@import '@syncfusion/ej2-inputs/styles/material.css';
+@import '@syncfusion/ej2-navigations/styles/material.css';
+@import '@syncfusion/ej2-popups/styles/material.css';
+@import '@syncfusion/ej2-vue-schedule/styles/material.css';
 
 .e-schedule .e-month-view .e-appointment {
   background: #379295 !important;
