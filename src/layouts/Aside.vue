@@ -6,7 +6,7 @@
     color="tradewind100"
     v-model="storeLayout.drawer"
     :rail="storeLayout.rail"
-    @click="storeLayout.rail = true"
+    @click="storeLayout.rail = !true"
   >
     <v-list nav>
       <v-list-item :prepend-icon="storeLayout.imageProfile" role="listitem">
@@ -51,7 +51,7 @@
         aria-label="cerrar_sesión"
       >
         <template v-slot:prepend>
-          <v-icon color="tradewind950" icon="mdi-logout"></v-icon>
+          <v-icon color="red-accent-4" icon="mdi-logout"></v-icon>
         </template>
         Cerrar Sesión
         <v-tooltip activator="parent" location="end" role="tooltip" aria-label="cerrar sesión"

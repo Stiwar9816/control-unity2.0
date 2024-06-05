@@ -27,6 +27,20 @@ export const useBookingsStore = defineStore({
       let { data, error } = await supabase.rpc('get_bookings')
       if (error) throw new Error(`${error.message}`)
       return (this.bookings = data as BookingData[])
+    },
+    async updateBooking(data_booking: BookingData, booking_id: string) {
+      let { data, error } = await supabase.rpc('update_booking', {
+        data_booking,
+        booking_id
+      })
+      if (error) throw new Error(`${error.message}`)
+      return (this.bookings = data as BookingData[])
+    },
+    async deleteBooking(booking_id: string) {
+      let { error } = await supabase.rpc('delete_booking', {
+        booking_id
+      })
+      if (error) throw new Error(`${error.message}`)
     }
   }
 })

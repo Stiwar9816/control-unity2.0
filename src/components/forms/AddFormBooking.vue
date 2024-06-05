@@ -220,7 +220,7 @@ const submitForm = async () => {
 
     await booking.createBooking({
       ...props.dataFormBooking!,
-      implements: implementsString!
+      implements: implementsString!.toString()
     })
     showSnackbar.value = true
     message.value = '¡Reserva creada exitosamente!'

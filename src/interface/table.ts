@@ -97,6 +97,8 @@ export interface BookingData {
   room: string
   start_date: Date
   end_date: Date
+  room_name?: string
+  implements_names?: string
 }
 // DataTable Vuetify
 export type SelectItemKey =

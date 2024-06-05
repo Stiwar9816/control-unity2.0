@@ -34,6 +34,7 @@
     "@syncfusion/ej2-lists": "^25.2.3",
     "@syncfusion/ej2-navigations": "^25.1.42",
     "@syncfusion/ej2-popups": "^25.1.42",
+    "@syncfusion/ej2-schedule": "^25.2.6",
     "@syncfusion/ej2-vue-calendars": "^25.2.5",
     "@syncfusion/ej2-vue-schedule": "^25.1.42",
     "file-saver": "^2.0.5",
