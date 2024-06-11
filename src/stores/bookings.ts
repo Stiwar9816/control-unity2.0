@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { supabase } from '@/utils'
+import { supabase } from '@/config'
 import type { BookingData } from '@/interface'
 
 export const useBookingsStore = defineStore({

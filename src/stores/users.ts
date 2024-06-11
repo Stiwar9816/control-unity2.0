@@ -1,8 +1,9 @@
 import { defineStore } from 'pinia'
 // Interface
 import type { Field, UserData, UsersTable } from '@/interface'
+// Config
+import { supabase } from '@/config'
 // Utils
-import { supabase } from '@/utils'
 import { randomPassword } from '@/utils'
 
 export const useUserStore = defineStore({

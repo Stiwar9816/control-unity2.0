@@ -2,7 +2,9 @@ import { defineStore } from 'pinia'
 // Router
 import router from '@/router'
 // Utils
-import { randomPassword, supabase } from '@/utils'
+import { randomPassword } from '@/utils'
+// Config
+import { supabase } from '@/config'
 // Interface
 import type { AuthState, SigninInput } from '@/interface'
 

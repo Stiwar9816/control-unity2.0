@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 // Interface
 import type { ClassroomsData, ClassroomsTable, Field } from '@/interface'
 // Utils
-import { supabase } from '@/utils'
+import { supabase } from '@/config'
 
 export const useClassroomsStore = defineStore({
   id: 'classroom',
