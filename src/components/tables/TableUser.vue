@@ -26,16 +26,7 @@
           <!-- Dialog Add/Edit -->
           <v-dialog v-model="dialog" persistent max-width="600px">
             <template v-slot:activator="{ props }">
-              <v-btn
-                prepend-icon="mdi-plus"
-                variant="flat"
-                color="tradewind500"
-                rounded="md"
-                class="my-2"
-                v-bind="props"
-              >
-                Nuevo usuario
-              </v-btn>
+              <ButtonBase v-bind="props" label="Nuevo usuario" class="mx-2" />
             </template>
             <AddFormUser
               :form-title="formTitle"
@@ -104,13 +95,14 @@
   </v-row>
 </template>
 <script lang="ts" setup>
-import { ref, type DeepReadonly, onMounted, computed } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 // Components
 import AddFormUser from '@/components/forms/AddFormUser.vue'
 import ModalDelete from '@/components/forms/DeleteData.vue'
 import ButtonExportExcel from '@/components/buttons/ButtonExportExcel.vue'
 import InputSearch from '@/components/inputs/InputSearch.vue'
 import SnackbarAlert from '@/components/alerts/SnackbarAlert.vue'
+import ButtonBase from '@/components/buttons/ButtonBase.vue'
 // Stores
 import { useUserStore } from '@/stores'
 // Interface
@@ -118,10 +110,10 @@ import type { DataTableHeader, UserData } from '@/interface'
 // utils
 import { exportData } from '@/utils'
 // Props
-const props = defineProps({
-  headers: Array as () => DeepReadonly<DataTableHeader[] | DataTableHeader[][]>,
-  items: Array<UserData>
-})
+const props = defineProps<{
+  headers: DataTableHeader[]
+  items: UserData[]
+}>()
 // Const
 const dialog = ref<boolean>(false)
 const dialogDelete = ref<boolean>(false)
@@ -134,14 +126,14 @@ const editedItem = ref<UserData>({
   email: '',
   name: '',
   phone: 0,
-  role: []
+  role: ''
 })
 const defaultItem = ref<UserData>({
   cc: 0,
   email: '',
   name: '',
   phone: 0,
-  role: []
+  role: ''
 })
 // Initialization Store
 const user = useUserStore()

@@ -1,7 +1,13 @@
 <template>
-  <v-btn type="submit" :prepend-icon="props.icon" color="tradewind500" variant="flat" rounded="md">{{
-    props.label
-  }}</v-btn>
+  <v-btn
+    :type="props.typeButton"
+    :prepend-icon="props.icon"
+    color="tradewind500"
+    variant="flat"
+    rounded="md"
+  >
+    {{ props.label }}
+  </v-btn>
 </template>
 
 <script setup lang="ts">
@@ -13,6 +19,9 @@ const props = defineProps({
   icon: {
     type: String,
     default: 'mdi-plus'
+  },
+  typeButton: {
+    type: String
   }
 })
 </script>

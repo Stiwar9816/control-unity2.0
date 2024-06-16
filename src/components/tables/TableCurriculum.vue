@@ -28,16 +28,7 @@
           <!-- Dialog Add/Edit -->
           <v-dialog v-model="dialog" id="dialogImplement" persistent max-width="600px">
             <template v-slot:activator="{ props }">
-              <v-btn
-                prepend-icon="mdi-plus"
-                variant="flat"
-                color="tradewind500"
-                rounded="md"
-                class="my-2"
-                v-bind="props"
-              >
-                Nuevo asignatura
-              </v-btn>
+              <ButtonBase v-bind="props" label="Nueva asignatura" class="mx-2" />
             </template>
             <AddFormCurriculum
               :form-title="formTitle"
@@ -114,6 +105,7 @@ import ButtonExportExcel from '@/components/buttons/ButtonExportExcel.vue'
 import ButtonImportExcel from '@/components/buttons/ButtonImportExcel.vue'
 import InputSearch from '@/components/inputs/InputSearch.vue'
 import SnackbarAlert from '@/components/alerts/SnackbarAlert.vue'
+import ButtonBase from '@/components/buttons/ButtonBase.vue'
 //Stores
 import { useCurriculumsStore } from '@/stores'
 // Interface
@@ -121,10 +113,10 @@ import type { DataTableHeader, CurriculumData } from '@/interface'
 // utils
 import { exportData } from '@/utils'
 // Props
-const props = defineProps({
-  headers: Array as () => DeepReadonly<DataTableHeader[] | DataTableHeader[][]>,
-  items: Array<CurriculumData>
-})
+const props = defineProps<{
+  headers: DataTableHeader[]
+  items: CurriculumData[]
+}>()
 // Const
 const dialog = ref<boolean>(false)
 const dialogDelete = ref<boolean>(false)

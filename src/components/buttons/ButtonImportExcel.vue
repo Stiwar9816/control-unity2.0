@@ -53,11 +53,12 @@ import {
   determineRoute,
   formatBytes,
   handleClassroomData,
+  handleCurriculumData,
   handleImplementData,
   handleTeacherData,
-  handleCurriculumData,
   validateAndIterateRows
 } from '@/utils'
+
 // Const
 const file = ref<File | any>(null)
 const fileInputRef = ref<HTMLInputElement | null>(null)
@@ -183,7 +184,7 @@ const handleFileChange = async () => {
     }
   } catch (error: any) {
     showSnackbar.value = true
-    message.value = `Error al manejar el cambio de archivo: ${error.message || error}`
+    message.value = `${error.message || error}`
     color.value = 'red-darken-3'
   } finally {
     // Espera 1 segundo para cambiar el estado del loading y el chip
