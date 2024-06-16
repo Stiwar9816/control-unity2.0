@@ -38,6 +38,6 @@ export const handleClassroomData = async (
       'Salón(es)' // Mensaje en caso de existencia
     )
   } catch (error: any) {
-    throw new Error(`Error al agregar los salones: ${error.message}`)
+    throw new Error(`Error al agregar los datos de los salones: ${error.message}`)
   }
 }

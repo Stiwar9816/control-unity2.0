@@ -1,1 +1,7 @@
-export { handleClassroomData, handleCurriculumData, handleImplementData, handleTeacherData, handleUsersData } from "..";
+export {
+  handleClassroomData,
+  handleCurriculumData,
+  handleImplementData,
+  handleTeacherData,
+  handleUsersData
+} from '..'

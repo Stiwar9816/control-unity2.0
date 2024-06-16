@@ -35,7 +35,7 @@ export const handleTeacherData = async (
       'name', // Nombre del valor que se usará para el mensaje
       'Docente(s)' // Mensaje en caso de existencia
     )
-  } catch (error) {
-    console.error('Error al manejar datos de los docentes:', error)
+  } catch (error: any) {
+    throw new Error(`Error al agregar los datos de los docentes: ${error.message}`)
   }
 }

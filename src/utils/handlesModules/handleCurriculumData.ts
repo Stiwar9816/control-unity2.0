@@ -48,6 +48,6 @@ export const handleCurriculumData = async (
       'Asignatura(s)' // Mensaje en caso de existencia
     )
   } catch (error: any) {
-    throw new Error(`'Error al agregar las asignaturas:', ${error.message}`)
+    throw new Error(`Error al agregar las asignaturas: ${error.message}`)
   }
 }

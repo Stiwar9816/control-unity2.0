@@ -1,11 +1,11 @@
 export { handleData } from './common/handleData'
 export { checkForDuplicate } from './common/checkForDuplicate'
 export {
-  buildClassrommAlertMessage,
-  buildImplementAlertMessage,
-  buildTeacherAlertMessage,
-  buildCurriculumAlertMessage,
-  handleDuplicate
+  handleDuplicate,
+  getTeacherName,
+  getImplementName,
+  getClassroomName,
+  getCurriculumName
 } from './common/handleDuplicate'
 export { determineRoute } from './common/determineRoute'
 export { emailRules, requiredValue } from './validates/validations'
@@ -19,4 +19,7 @@ export { handleTeacherData } from './handlesModules/handleTeacherData'
 export { handleUsersData } from './handlesModules/handleUsersData'
 export { randomPassword } from './common/randomPassword'
 export { validateAndIterateRows } from './validates/validateAndIterateRows'
-export { scheduleTranslations, recurrenceEditorTranslations } from './translate/scheduleTranslations'
+export {
+  scheduleTranslations,
+  recurrenceEditorTranslations
+} from './translate/scheduleTranslations'

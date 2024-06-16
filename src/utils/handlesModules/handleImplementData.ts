@@ -44,6 +44,6 @@ export const handleImplementData = async (
       'Implemento(s)' // Mensaje en caso de existencia
     )
   } catch (error: any) {
-    throw new Error(`'Error al agregar los implementos:', ${error.message}`)
+    throw new Error(`Error al agregar los datos de los implementos: ${error.message}`)
   }
 }
